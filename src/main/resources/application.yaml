@@ -1,28 +1,30 @@
 spring:
-  application:
-    name: order-service
   cloud:
-    kubernetes:
-      reload:
-        enabled: true
-        strategy: restart_context
+    gateway:
+      routes:
+        - predicates:
+            - Path=/myhelsana/services/medicheck/**
+          filters:
+            - StripPrefix=3
+          uri: "http://medicheck-service-development.apps.c3smonkey.ch"
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    restart:
-      enabled: true
-
-opentracing:
-  jaeger:
-    log-spans: true
-    http-sender:
-      url: http://localhost:14268/api/traces
-
-ribbon:
-  http:
-    client:
-      enabled: true
+#server:
+##  port: 9090
+##---
+##spring:
+##  cloud:
+##    gateway:
+##      default-filters:
+##        - name: GlobalFilter
+##      routes:
+##        - id: nt-ms1
+##          uri: http://localhost:9091/
+##          predicates:
+##            - Path=/nt-ms1/**
+##          filters:
+##            - name: PreFilter
+##            - name: PostFilter
+##        - id: nt-ms2
+##          uri: http://localhost:9092/
+##          predicates:
+##            - Path=/nt-ms2/**
