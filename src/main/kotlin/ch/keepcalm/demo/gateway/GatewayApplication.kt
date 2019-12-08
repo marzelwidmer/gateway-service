@@ -19,16 +19,3 @@ fun main(args: Array<String>) {
 }
 
 
-
-@Configuration
-class KotlinRoutes {
-	@Bean
-	fun kotlinBasedRoutes(routeLocatorBuilder: RouteLocatorBuilder): RouteLocator =
-			routeLocatorBuilder.routes {
-				route {
-					path("/kotlin/**")
-					filters { stripPrefix(1) }
-					uri("http://httpbin.org")
-				}
-			}
-}
