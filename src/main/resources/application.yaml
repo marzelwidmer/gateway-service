@@ -2,7 +2,14 @@ spring:
   cloud:
     gateway:
       routes:
-        - predicates:
+        - id: service_route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/customer/**
+          filters:
+            - RewritePath=customer(?<segment>/?.*), $\{segment}
+        - id: openshift_route
+          predicates:
             - Path=/myhelsana/services/medicheck/**
           filters:
             - StripPrefix=3
