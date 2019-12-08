@@ -6,8 +6,26 @@ spring:
             - Path=/myhelsana/services/medicheck/**
           filters:
             - StripPrefix=3
+            - RewritePath=/service(?<segment>/?.*), $\{segment}
+            - name: Logging
+              args:
+                baseMessage: My Custom Message
+                preLogger: true
+                postLogger: true
           uri: "http://medicheck-service-development.apps.c3smonkey.ch"
 
+management:
+  endpoints:
+    web:
+      exposure.include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+    restart:
+      enabled: true
+  info:
+    git:
+      mode: full
 
 logging:
   level:

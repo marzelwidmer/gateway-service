@@ -1,4 +1,4 @@
-package ch.keepcalm.demo.gateway.filter
+package ch.keepcalm.demo.gateway.filters
 
 import org.slf4j.LoggerFactory
 import org.springframework.cloud.gateway.filter.GatewayFilterChain
