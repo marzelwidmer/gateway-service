@@ -15,6 +15,12 @@ class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayF
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
+    companion object {
+        const val BASE_MSG = "baseMessage"
+        const val PRE_LOGGER = "preLogger"
+        const val POST_LOGGER = "postLogger"
+    }
+
     override fun shortcutFieldOrder(): List<String> {
         return Arrays.asList(BASE_MSG, PRE_LOGGER, POST_LOGGER)
     }
@@ -23,7 +29,9 @@ class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayF
         return OrderedGatewayFilter(GatewayFilter { exchange: ServerWebExchange?, chain: GatewayFilterChain ->
             if (config.isPreLogger) logger.info("Pre GatewayFilter logging: ${config.baseMessage}")
             chain.filter(exchange)
-                    .then(Mono.fromRunnable { if (config.isPostLogger) logger.info("Post GatewayFilter logging: ${config.baseMessage}") })
+                    .then(Mono.fromRunnable {
+                        if (config.isPostLogger) logger.info("Post GatewayFilter logging: ${config.baseMessage}")
+                    })
         }, 1)
     }
 
@@ -38,16 +46,5 @@ class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayF
             isPreLogger = preLogger
             isPostLogger = postLogger
         }
-
     }
-
-
-
-
-    companion object {
-        const val BASE_MSG = "baseMessage"
-        const val PRE_LOGGER = "preLogger"
-        const val POST_LOGGER = "postLogger"
-    }
-
 }
