@@ -40,7 +40,7 @@ class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayF
         var isPreLogger = false
         var isPostLogger = false
 
-        constructor() {}
+        constructor()
         constructor(baseMessage: String?, preLogger: Boolean, postLogger: Boolean) : super() {
             this.baseMessage = baseMessage
             isPreLogger = preLogger
