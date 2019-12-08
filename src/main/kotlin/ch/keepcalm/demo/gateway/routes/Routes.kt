@@ -1,9 +1,8 @@
 package ch.keepcalm.demo.gateway.routes
 
+import ch.keepcalm.demo.gateway.filters.LoggingGatewayFilterFactory
 import org.springframework.cloud.gateway.route.RouteLocator
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder
-import org.springframework.cloud.gateway.route.builder.filters
-import org.springframework.cloud.gateway.route.builder.routes
+import org.springframework.cloud.gateway.route.builder.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -19,4 +18,22 @@ class KotlinRoutes {
                     uri("http://httpbin.org")
                 }
             }
+
+    @Bean
+    fun orderRoutes(
+            builder: RouteLocatorBuilder,
+            loggingFactory: LoggingGatewayFilterFactory): RouteLocator? {
+        return builder.routes()
+                .route("service_route_kotlin_config") { r: PredicateSpec ->
+                    r.path("/order/**")
+                            .filters { filter: GatewayFilterSpec ->
+                                filter.rewritePath("order(?<segment>/?.*)", "$\\{segment}")
+                                        .filter(loggingFactory.apply(
+                                                LoggingGatewayFilterFactory.Config("My Custom Message", true, true)))
+                            }
+                            .uri("http://localhost:8082")
+                }
+                .build()
+    }
 }
+

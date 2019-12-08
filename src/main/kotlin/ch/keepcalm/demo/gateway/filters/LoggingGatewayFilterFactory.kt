@@ -32,7 +32,7 @@ class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayF
                     .then(Mono.fromRunnable {
                         if (config.isPostLogger) logger.info("Post GatewayFilter logging: ${config.baseMessage}")
                     })
-        }, 1)
+        },   1)
     }
 
     class Config {
