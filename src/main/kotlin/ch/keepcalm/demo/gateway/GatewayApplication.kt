@@ -10,9 +10,17 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.server.RequestPredicates.path
 import org.springframework.web.reactive.function.server.RouterFunctions.route
+import java.util.*
+import javax.annotation.PostConstruct
 
 @SpringBootApplication
-class GatewayApplication
+class GatewayApplication {
+	@PostConstruct
+	fun init() {
+		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Zurich"))
+		System.out.println("Date in Europe/Zurich: ${Date().toString()}")
+	}
+}
 
 fun main(args: Array<String>) {
 	runApplication<GatewayApplication>(*args)

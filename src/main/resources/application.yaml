@@ -6,11 +6,15 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/customer/**
+            - After=2019-08-12T14:33:47.789-07:00[CET]
           filters:
             - RewritePath=customer(?<segment>/?.*), $\{segment}
         - id: openshift_route
           predicates:
             - Path=/myhelsana/services/medicheck/**
+#            - Between=2019-08-12T12:33:47.789-07:00[CET], 2019-08-12T17:45:47.789-07:00[CET]
+            - Between=2019-08-12T14:33:47.789-07:00[CET], 2019-09-12T14:33:47.789-07:00[CET]
+#            - Between=2019-08-12T10:57:47.789-07:00[Europe/Zurich], 2019-09-12T15:00:00.789-07:00[Europe/Zurich]
           filters:
             - StripPrefix=3
             - RewritePath=/service(?<segment>/?.*), $\{segment}
@@ -24,15 +28,14 @@ spring:
 management:
   endpoints:
     web:
-      exposure.include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
+      exposure:
+        include: "*"
     restart:
       enabled: true
   info:
     git:
       mode: full
+
 
 logging:
   level:
@@ -44,24 +47,3 @@ logging:
           %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m
           ){faint}%n"
 
-
-#server:
-##  port: 9090
-##---
-##spring:
-##  cloud:
-##    gateway:
-##      default-filters:
-##        - name: GlobalFilter
-##      routes:
-##        - id: nt-ms1
-##          uri: http://localhost:9091/
-##          predicates:
-##            - Path=/nt-ms1/**
-##          filters:
-##            - name: PreFilter
-##            - name: PostFilter
-##        - id: nt-ms2
-##          uri: http://localhost:9092/
-##          predicates:
-##            - Path=/nt-ms2/**
