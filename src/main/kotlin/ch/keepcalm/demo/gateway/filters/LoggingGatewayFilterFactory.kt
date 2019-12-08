@@ -1,85 +1,53 @@
-package ch.keepcalm.demo.gateway.filters;
+package ch.keepcalm.demo.gateway.filters
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
-import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.stereotype.Component;
-
-import reactor.core.publisher.Mono;
+import org.slf4j.LoggerFactory
+import org.springframework.cloud.gateway.filter.GatewayFilter
+import org.springframework.cloud.gateway.filter.GatewayFilterChain
+import org.springframework.cloud.gateway.filter.OrderedGatewayFilter
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
+import org.springframework.stereotype.Component
+import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Mono
+import java.util.*
 
 @Component
-public class LoggingGatewayFilterFactory extends AbstractGatewayFilterFactory<LoggingGatewayFilterFactory.Config> {
+class LoggingGatewayFilterFactory : AbstractGatewayFilterFactory<LoggingGatewayFilterFactory.Config>(Config::class.java) {
 
-    final Logger logger = LoggerFactory.getLogger(LoggingGatewayFilterFactory.class);
+    private val logger = LoggerFactory.getLogger(javaClass)
 
-    public static final String BASE_MSG = "baseMessage";
-    public static final String PRE_LOGGER = "preLogger";
-    public static final String POST_LOGGER = "postLogger";
-
-    public LoggingGatewayFilterFactory() {
-        super(Config.class);
+    override fun shortcutFieldOrder(): List<String> {
+        return Arrays.asList(BASE_MSG, PRE_LOGGER, POST_LOGGER)
     }
 
-    @Override
-    public List<String> shortcutFieldOrder() {
-        return Arrays.asList(BASE_MSG, PRE_LOGGER, POST_LOGGER);
+    override fun apply(config: Config): GatewayFilter {
+        return OrderedGatewayFilter(GatewayFilter { exchange: ServerWebExchange?, chain: GatewayFilterChain ->
+            if (config.isPreLogger) logger.info("Pre GatewayFilter logging: ${config.baseMessage}")
+            chain.filter(exchange)
+                    .then(Mono.fromRunnable { if (config.isPostLogger) logger.info("Post GatewayFilter logging: ${config.baseMessage}") })
+        }, 1)
     }
 
-    @Override
-    public GatewayFilter apply(Config config) {
-        return new OrderedGatewayFilter((exchange, chain) -> {
-            if (config.isPreLogger())
-                logger.info("Pre GatewayFilter logging: " + config.getBaseMessage());
-            return chain.filter(exchange)
-                    .then(Mono.fromRunnable(() -> {
-                        if (config.isPostLogger())
-                            logger.info("Post GatewayFilter logging: " + config.getBaseMessage());
-                    }));
-        }, 1);
+    class Config {
+        var baseMessage: String? = null
+        var isPreLogger = false
+        var isPostLogger = false
+
+        constructor() {}
+        constructor(baseMessage: String?, preLogger: Boolean, postLogger: Boolean) : super() {
+            this.baseMessage = baseMessage
+            isPreLogger = preLogger
+            isPostLogger = postLogger
+        }
+
     }
 
-    public static class Config {
-        private String baseMessage;
-        private boolean preLogger;
-        private boolean postLogger;
 
-        public Config() {
-        };
 
-        public Config(String baseMessage, boolean preLogger, boolean postLogger) {
-            super();
-            this.baseMessage = baseMessage;
-            this.preLogger = preLogger;
-            this.postLogger = postLogger;
-        }
 
-        public String getBaseMessage() {
-            return this.baseMessage;
-        }
-
-        public boolean isPreLogger() {
-            return preLogger;
-        }
-
-        public boolean isPostLogger() {
-            return postLogger;
-        }
-
-        public void setBaseMessage(String baseMessage) {
-            this.baseMessage = baseMessage;
-        }
-
-        public void setPreLogger(boolean preLogger) {
-            this.preLogger = preLogger;
-        }
-
-        public void setPostLogger(boolean postLogger) {
-            this.postLogger = postLogger;
-        }
+    companion object {
+        const val BASE_MSG = "baseMessage"
+        const val PRE_LOGGER = "preLogger"
+        const val POST_LOGGER = "postLogger"
     }
+
 }
