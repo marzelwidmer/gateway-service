@@ -126,12 +126,18 @@
         <!-- Use mvn fabric8:build -PJib to perform Jib Build -->
         <profile>
             <id>Jib</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                </os>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>fabric8-maven-plugin</artifactId>
                         <version>${fabric8-maven-plugin.version}</version>
+
                         <configuration>
                             <resourceDir>target/fabric8-source</resourceDir>
                             <isJib>true</isJib>
