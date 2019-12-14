@@ -14,7 +14,7 @@ spec:
         app: ${project.artifactId}
     spec:
       containers:
-        - image: docker-registry.default.svc:5000/build/spring-cloud-gateway:latest
+        - image: docker-registry.default.svc:5000/build/spring-cloud-gateway:dev
           imagePullPolicy: Always
           name: ${project.artifactId}
           resources:

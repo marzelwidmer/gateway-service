@@ -65,12 +65,6 @@ Add `Pull` policy to pull image from `Build` namespace
 ```bash
 oc policy add-role-to-group system:image-puller system:serviceaccounts:dev -n build
 ```
-
-# Set Trigger - Redeploy App in Dev 
-```bash
-oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:latest -c spring-cloud-gateway
-```
-
 Apply Configuration
 ```bash
 mvn fabric8:resource-apply -Dfabric8.namespace=dev
@@ -81,7 +75,28 @@ mvn fabric8:resource-apply -Dfabric8.namespace=dev
 
 
 
+# Create Tag
+````bash
+oc tag spring-cloud-gateway:latest spring-cloud-gateway:dev -nbuild
+````
+# Delete Tag
+```bash
+oc delete istag/spring-cloud-gateway:dev -nbuild
+```
+# Check Tags
+```bash
+oc get is -nbuild
+```
 
+
+
+
+
+
+# Set Trigger - Redeploy App in Dev 
+```bash
+oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:dev -c spring-cloud-gateway -ndev
+```
 
 
 
