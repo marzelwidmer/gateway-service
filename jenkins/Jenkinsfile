@@ -24,8 +24,11 @@ pipeline {
         stage('Initial Resources') {
             steps {
 
-                sh("oc policy add-role-to-group system:image-puller system:serviceaccounts:$DEV_ENVIRONMENT -n $BUILD_ENVIRONMENT)
+                sh("oc policy add-role-to-group system:image-puller system:serviceaccounts:$DEV_ENVIRONMENT -n $BUILD_ENVIRONMENT")
                 sh("oc project $DEV_ENVIRONMENT")
+                sh("./mvnw fabric8:resource -Dfabric8.namespace=$DEV_ENVIRONMENT")
+                sh("./mvnw fabric8:resource-apply -Dfabric8.namespace=$DEV_ENVIRONMENT")
+                sh("oc set triggers dc/$APP_NAME --from-image=$BUILD_ENVIRONMENT/$APP_NAME:latest -c $APP_NAME -n$DEV_ENVIRONMENT")
 
             }
         }
@@ -47,7 +50,8 @@ pipeline {
                     echo "Last Git commit: ${LAST_GIT_COMMIT}"
                     echo "Last Git commit short: ${GIT_COMMIT_SHORT}"
                     echo "NEXT_VERSION : ${NEXT_VERSION}"
-                    sh("./mvnw package -X -B -U -DskipTests -Djgitver.use-version=$NEXT_VERSION")
+
+                    sh("./mvnw fabric8:build -X -B -U -DskipTests -Djgitver.use-version=$NEXT_VERSION  -Dfabric8.namespace=$BUILD_ENVIRONMENT")
                 }
             }
         }
