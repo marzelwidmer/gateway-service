@@ -52,22 +52,26 @@ Content-Type: application/json
 
 # Fabric8 
 
-Create Resource for `Dev` namespace.
-```bash
-mvn fabric8:resource -Dfabric8.namespace=dev
-```
-Build Application in `Build` namespace.
-```bash
-mvn package fabric8:build  -Dfabric8.namespace=build
-```
 
 Add `Pull` policy to pull image from `Build` namespace
 ```bash
 oc policy add-role-to-group system:image-puller system:serviceaccounts:dev -n build
 ```
+
+
+Create Resource for `Dev` namespace.
+```bash
+mvn fabric8:resource -Dfabric8.namespace=dev
+```
+
 Apply Configuration
 ```bash
 mvn fabric8:resource-apply -Dfabric8.namespace=dev
+```
+
+Build Application in `Build` namespace.
+```bash
+mvn package fabric8:build  -Dfabric8.namespace=build
 ```
 
 
@@ -95,6 +99,9 @@ oc get is -nbuild
 
 # Set Trigger - Redeploy App in Dev 
 ```bash
+oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:dev -c spring-boot -ndev
+
+
 oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:dev -c spring-cloud-gateway -ndev
 ```
 

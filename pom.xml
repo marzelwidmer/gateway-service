@@ -131,6 +131,14 @@
                     <family>mac</family>
                 </os>
             </activation>
+
+            <properties>
+                <fabric8.build.jib>true</fabric8.build.jib>
+                 <fabric8.openshift.imageChangeTrigger>true</fabric8.openshift.imageChangeTrigger>
+                <fabric8.openshift.enableAutomaticTrigger>true</fabric8.openshift.enableAutomaticTrigger>
+                <fabric8.openshift.generateRoute>true</fabric8.openshift.generateRoute>
+            </properties>
+
             <build>
                 <plugins>
                     <plugin>
@@ -139,8 +147,7 @@
                         <version>${fabric8-maven-plugin.version}</version>
 
                         <configuration>
-                            <resourceDir>target/fabric8-source</resourceDir>
-                            <isJib>true</isJib>
+<!--                            <resourceDir>target/fabric8-source</resourceDir>-->
                             <resources>
                                 <labels>
                                     <all>
@@ -151,30 +158,31 @@
                                     </all>
                                 </labels>
                             </resources>
-
-                            <generator>
-                                <includes>
-                                    <include>spring-boot</include>
-                                </includes>
-                                <config>
-                                    <spring-boot>
-                                        <!-- authentic username of registry to be used for automatic push to registry-->
-                                        <!--<name>${image.user}/${project.artifactId}:${project.version}</name>-->
-                                        <color>always</color>
-                                    </spring-boot>
-                                </config>
-                            </generator>
-                            <enricher>
-                                <excludes>
-                                    <exclude>f8-expose</exclude>
-                                </excludes>
-                                <config>
-                                    <fmp-service>
-                                        <type>NodePort</type>
-                                    </fmp-service>
-                                </config>
-                            </enricher>
                         </configuration>
+<!--                            <generator>-->
+<!--                                <includes>-->
+<!--                                    <include>spring-boot</include>-->
+<!--                                </includes>-->
+<!--                                <config>-->
+<!--                                    <spring-boot>-->
+<!--                                        &lt;!&ndash; authentic username of registry to be used for automatic push to registry&ndash;&gt;-->
+<!--                                        &lt;!&ndash;<name>${image.user}/${project.artifactId}:${project.version}</name>&ndash;&gt;-->
+<!--                                        <color>always</color>-->
+<!--                                    </spring-boot>-->
+<!--                                </config>-->
+<!--                            </generator>-->
+
+<!--                            <enricher>-->
+<!--                                <excludes>-->
+<!--                                    <exclude>f8-expose</exclude>-->
+<!--                                </excludes>-->
+<!--                                <config>-->
+<!--                                    <fmp-service>-->
+<!--                                        <type>NodePort</type>-->
+<!--                                    </fmp-service>-->
+<!--                                </config>-->
+<!--                            </enricher>-->
+<!--                        </configuration>-->
 
                         <executions>
                             <execution>
@@ -188,29 +196,29 @@
                     </plugin>
 
                     <!-- Resource Plugin for fabric8-->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>copy-fabric8-config</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals>
-                                <configuration>
-                                    <overwrite>true</overwrite>
-                                    <outputDirectory>${basedir}/target/fabric8-source</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/fabric8</directory>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-resources-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>copy-fabric8-config</id>-->
+<!--                                <phase>package</phase>-->
+<!--                                <goals>-->
+<!--                                    <goal>copy-resources</goal>-->
+<!--                                </goals>-->
+<!--                                <configuration>-->
+<!--                                    <overwrite>true</overwrite>-->
+<!--                                    <outputDirectory>${basedir}/target/fabric8-source</outputDirectory>-->
+<!--                                    <resources>-->
+<!--                                        <resource>-->
+<!--                                            <directory>src/main/fabric8</directory>-->
+<!--                                            <filtering>true</filtering>-->
+<!--                                        </resource>-->
+<!--                                    </resources>-->
+<!--                                </configuration>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
                 </plugins>
             </build>
         </profile>
