@@ -37,6 +37,13 @@ spec:
           image: ${project.artifactId}:latest
           imagePullPolicy: Always
           name: ${project.artifactId}
+          resources:
+            requests:
+              memory: ${requests_memory}
+              cpu: ${requests_cpu}
+            limits:
+              memory: ${limits_memory}
+              cpu: ${limits_cpu}
           livenessProbe:
             httpGet:
               path: /alive

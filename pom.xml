@@ -146,9 +146,14 @@
 
             <properties>
                 <fabric8.build.jib>true</fabric8.build.jib>
-                 <fabric8.openshift.imageChangeTrigger>true</fabric8.openshift.imageChangeTrigger>
+                <fabric8.openshift.imageChangeTrigger>true</fabric8.openshift.imageChangeTrigger>
                 <fabric8.openshift.enableAutomaticTrigger>true</fabric8.openshift.enableAutomaticTrigger>
                 <fabric8.openshift.generateRoute>true</fabric8.openshift.generateRoute>
+
+                <requests_memory>256M</requests_memory>
+                <requests_cpu>2000m</requests_cpu>
+                <limits_memory>512M</limits_memory>
+                <limits_cpu>4000m</limits_cpu>
             </properties>
 
             <build>
