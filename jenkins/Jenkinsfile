@@ -25,8 +25,8 @@ pipeline {
             steps {
               script {
 
-                sh("mvn fabric8:resource -Dfabric8.namespace=$DEV_ENVIRONMENT")
-                sh("mvn fabric8:resource-apply -Dfabric8.namespace=$DEV_ENVIRONMENT")
+                sh("mvn fabric8:resource -Dfabric8.namespace=$DEV_ENVIRONMENT -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true")
+                sh("mvn fabric8:resource-apply -Dfabric8.namespace=$DEV_ENVIRONMENT -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dmaven.wagon.http.ssl.ignore.validity.dates=true")
                 sh("oc set triggers dc/$APP_NAME --from-image=$BUILD_ENVIRONMENT/$APP_NAME:latest -c $APP_NAME -n$DEV_ENVIRONMENT")
 
                }
