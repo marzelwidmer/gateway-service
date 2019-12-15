@@ -23,9 +23,6 @@ pipeline {
         // Test and archive artifacts
         stage('Initial Resources') {
             steps {
-
-                sh("oc policy add-role-to-group system:image-puller system:serviceaccounts:$DEV_ENVIRONMENT -n $BUILD_ENVIRONMENT")
-                sh("oc project $DEV_ENVIRONMENT")
                 sh("./mvnw fabric8:resource -Dfabric8.namespace=$DEV_ENVIRONMENT")
                 sh("./mvnw fabric8:resource-apply -Dfabric8.namespace=$DEV_ENVIRONMENT")
                 sh("oc set triggers dc/$APP_NAME --from-image=$BUILD_ENVIRONMENT/$APP_NAME:latest -c $APP_NAME -n$DEV_ENVIRONMENT")
