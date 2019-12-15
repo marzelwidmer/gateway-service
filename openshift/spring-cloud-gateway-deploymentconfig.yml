@@ -1,0 +1,92 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    fabric8.io/git-commit: f70e52650a9ccde99c697507ea57a51cc1f83813
+    fabric8.io/git-branch: master
+    fabric8.io/git-url: git@github.com:marzelwidmer/spring-cloud-gateway.git
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/spring-cloud-gateway
+    fabric8.io/scm-tag: HEAD
+  labels:
+    component: fsl-backend
+    app: spring-cloud-gateway
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+    group: ch.keepcalm.demo
+  name: spring-cloud-gateway
+  namespace: dev
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    app: spring-cloud-gateway
+    provider: fabric8
+    group: ch.keepcalm.demo
+  strategy:
+    rollingParams:
+      timeoutSeconds: 3600
+    type: Rolling
+  template:
+    metadata:
+      annotations:
+        fabric8.io/git-commit: f70e52650a9ccde99c697507ea57a51cc1f83813
+        fabric8.io/git-branch: master
+        fabric8.io/scm-tag: HEAD
+        fabric8.io/git-url: git@github.com:marzelwidmer/spring-cloud-gateway.git
+        fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/spring-cloud-gateway
+      labels:
+        component: fsl-backend
+        app: spring-cloud-gateway
+        provider: fabric8
+        version: 0.0.1-SNAPSHOT
+        group: ch.keepcalm.demo
+      namespace: dev
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: spring-cloud-gateway:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 180
+          successThreshold: 1
+        name: spring-boot
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /actuator/health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+          successThreshold: 1
+        securityContext:
+          privileged: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - spring-boot
+      from:
+        kind: ImageStreamTag
+        name: spring-cloud-gateway:latest
+    type: ImageChange

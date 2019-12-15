@@ -68,6 +68,11 @@ Apply Configuration
 ```bash
 mvn fabric8:resource-apply -Dfabric8.namespace=dev
 ```
+Set Trigger for `Build` project image change.
+```bash
+oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:latest -c spring-cloud-gateway -ndev
+
+```
 
 Build Application in `Build` namespace.
 ```bash
@@ -99,9 +104,6 @@ oc get is -nbuild
 
 # Set Trigger - Redeploy App in Dev 
 ```bash
-oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:dev -c spring-boot -ndev
-
-
 oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:dev -c spring-cloud-gateway -ndev
 ```
 

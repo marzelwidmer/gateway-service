@@ -1,0 +1,24 @@
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    fabric8.io/git-commit: f70e52650a9ccde99c697507ea57a51cc1f83813
+    fabric8.io/git-branch: master
+    fabric8.io/git-url: git@github.com:marzelwidmer/spring-cloud-gateway.git
+    fabric8.io/scm-url: https://github.com/spring-projects/spring-boot/spring-boot-starter-parent/spring-cloud-gateway
+    fabric8.io/scm-tag: HEAD
+  labels:
+    expose: "true"
+    app: spring-cloud-gateway
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+    group: ch.keepcalm.demo
+  name: spring-cloud-gateway
+  namespace: dev
+spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: spring-cloud-gateway

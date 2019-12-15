@@ -1,0 +1,12 @@
+---
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  labels:
+    app: spring-cloud-gateway
+    provider: fabric8
+    version: 0.0.1-SNAPSHOT
+    group: ch.keepcalm.demo
+  name: dev
+status:
+  phase: active
