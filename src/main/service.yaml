@@ -1,7 +1,0 @@
-metadata:
-  annotations:
-    api.service.kubernetes.io/path: /hello
-  labels:
-    expose: "false"
-spec:
-  type: LoadBalancer
