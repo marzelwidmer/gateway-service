@@ -1,53 +1,59 @@
 spring:
   cloud:
     gateway:
-      routes:
-        - id: service_route
-          uri: http://localhost:8081
-          predicates:
-            - Path=/customer/**
-            - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
-          filters:
-            - RewritePath=foo(?<segment>/?.*), $\{segment}
-        - id: foo-service_route
-          uri: lb://foo-service
-          predicates:
-            - Path=/foo/**
-          filters:
-            - RewritePath=customer(?<segment>/?.*), $\{segment}
-        - id: openshift_route
-          predicates:
-            - Path=/myhelsana/services/medicheck/**
-            - Between=2019-12-08T20:28:00.001+01:00[Europe/Zurich], 2019-12-08T20:30:00.001+01:00[Europe/Zurich]
-          filters:
-            - StripPrefix=3
-            - RewritePath=/service(?<segment>/?.*), $\{segment}
-            - name: Logging
-              args:
-                baseMessage: My Custom Message
-                preLogger: true
-                postLogger: true
-          uri: "http://medicheck-service-development.apps.c3smonkey.ch"
+#      routes:
+#        - id: service_route
+#          uri: http://localhost:8081
+#          predicates:
+#            - Path=/customer/**
+#            - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
+#          filters:
+#            - RewritePath=foo(?<segment>/?.*), $\{segment}
+#        - id: foo-service_route
+#          uri: http://foo-service
+#          predicates:
+#            - Path=/foo/**
+#          filters:
+#            - RewritePath=customer(?<segment>/?.*), $\{segment}
+#        - id: openshift_route
+#          predicates:
+#            - Path=/myhelsana/services/medicheck/**
+#            - Between=2019-12-08T20:28:00.001+01:00[Europe/Zurich], 2019-12-08T20:30:00.001+01:00[Europe/Zurich]
+#          filters:
+#            - StripPrefix=3
+#            - RewritePath=/service(?<segment>/?.*), $\{segment}
+#            - name: Logging
+#              args:
+#                baseMessage: My Custom Message
+#                preLogger: true
+#                postLogger: true
+#          uri: "http://medicheck-service-development.apps.c3smonkey.ch"
+
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          url-expression: "uri"
+
+#          url-expression: "'http://'+serviceId"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.loadbalancer: TRACE
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: '*'
+  endpoint:
+    health:
+      enabled: true
     restart:
+      enabled: true
+    info:
       enabled: true
   info:
     git:
       mode: full
-
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty.http.client: DEBUG
-  pattern:
-    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint}
-          %clr([${spring.zipkin.service.name:${spring.application.name:-}},){magenta}%clr(%X{X-B3-TraceId:-},){yellow}%clr(%X{X-B3-SpanId:-},){cyan}%clr(,%X{X-Span-Export:-}]){blue}%clr([%8.15t]){cyan}
-          %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m
-          ){faint}%n"
-
