@@ -8,6 +8,12 @@ spring:
             - Path=/customer/**
             - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
           filters:
+            - RewritePath=foo(?<segment>/?.*), $\{segment}
+        - id: foo-service_route
+          uri: lb://foo-service
+          predicates:
+            - Path=/foo/**
+          filters:
             - RewritePath=customer(?<segment>/?.*), $\{segment}
         - id: openshift_route
           predicates:

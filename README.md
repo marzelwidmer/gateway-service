@@ -52,6 +52,11 @@ Content-Type: application/json
 
 # Fabric8 
 
+Create Projects
+```bash
+oc new-project build --display-name="Build Environment"
+oc new-project dev --display-name="Development Stage"
+```
 
 Add `Pull` policy to pull image from `Build` namespace
 ```bash
@@ -61,7 +66,7 @@ oc policy add-role-to-group system:image-puller system:serviceaccounts:dev -n bu
 
 Create Resource for `Dev` namespace.
 ```bash
-mvn fabric8:resource -Dfabric8.namespace=dev
+mvn clean fabric8:resource -Dfabric8.namespace=dev
 ```
 
 Apply Configuration
