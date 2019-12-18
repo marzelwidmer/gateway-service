@@ -1,33 +1,16 @@
-```bash
-urlA=:8080/myhelsana/services/medicheck
-
-http -vv GET $urlA \
- x-forwarded-proto:https \
- x-forwarded-host:example.com \
- x-forwarded-port:9090 \
- forwarded:for='portal.helsana-entwicklung.ch;host=portal.helsana-entwicklung.ch;proto=https'
-```
 
 
 ```bash
-urlM=http://medicheck-service-development.apps.c3smonkey.ch
+url=http://medicheck-service-development.apps.c3smonkey.ch
 
-http -vv GET $urlM \
+http -vv GET $url \
  x-forwarded-proto:https \
  x-forwarded-host:example.com \
  x-forwarded-port:9090 \
- forwarded:for='portal.helsana-entwicklung.ch;host=portal.helsana-entwicklung.ch;proto=https'
+ forwarded:for='portal.azure.com;host=portal.azure.com;proto=https "Authorization: Bearer ${TOKEN}" 
 ```
 
-
-
-```bash
-http -vv GET :8080/myhelsana/services/medicheck/api/medicheck/landing-page \
- x-forwarded-proto:https \
- x-forwarded-host:example.com \
- x-forwarded-port:9090 \
- forwarded:for='localhost:8080;host=localhost:8080;proto=http' "Authorization: Bearer ${TOKEN}"
-```
+ 
 
 # Check Routes
 ```bash
@@ -43,9 +26,9 @@ Content-Type: application/json
         "[[RewritePath /service(?<segment>/?.*) = '${segment}'], order = 2]"
     ],
     "order": 0,
-    "predicate": "(Paths: [/myhelsana/services/medicheck/**], match trailing slash: true && Between: 2019-08-12T23:33:47.789+02:00[CET] and 2019-09-12T23:33:47.789+02:00[CET])",
+    "predicate": "(Paths: [/foo/services/bar/**], match trailing slash: true && Between: 2019-08-12T23:33:47.789+02:00[CET] and 2019-09-12T23:33:47.789+02:00[CET])",
     "route_id": "openshift_route",
-    "uri": "http://medicheck-service-development.apps.c3smonkey.ch:80"
+    "uri": "http://foo-service-development.apps.c3smonkey.ch:80"
 }
 ```
 

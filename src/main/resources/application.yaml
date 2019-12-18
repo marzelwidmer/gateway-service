@@ -1,7 +1,22 @@
 spring:
   cloud:
     gateway:
-#      routes:
+      # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
+      forwarded:
+        enabled: false
+      x-forwarded:
+        enabled: true
+        prefix-enabled: true # this header modifies the uri of the request within the called service
+        prefix-append: false
+        proto-enabled: false
+        proto-append: false
+        port-enabled: false
+        port-append: false
+        host-enabled: false
+        host-append: false
+        for-enabled: false
+
+      #      routes:
 #        - id: service_route
 #          uri: http://localhost:8081
 #          predicates:
