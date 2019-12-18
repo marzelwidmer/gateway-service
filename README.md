@@ -1,7 +1,7 @@
 
 
 ```bash
-url=http://medicheck-service-development.apps.c3smonkey.ch
+url=http://spring-cloud-gateway-dev.apps.c3smonkey.ch/foo-service/
 
 http -vv GET $url \
  x-forwarded-proto:https \
