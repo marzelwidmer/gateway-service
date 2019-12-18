@@ -37,7 +37,7 @@ spring:
             - Path=${app.root.service}/foo/**
           uri: lb://foo-service
           filters:
-            - StripPrefix=2
+            - StripPrefix=3
 ---
 spring:
   profiles: foobar
