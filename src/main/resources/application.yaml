@@ -16,14 +16,30 @@ spring:
         host-append: false
         for-enabled: false
 
-      #      routes:
-#        - id: service_route
-#          uri: http://localhost:8081
-#          predicates:
-#            - Path=/customer/**
-#            - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
-#          filters:
-#            - RewritePath=foo(?<segment>/?.*), $\{segment}
+      routes:
+        - id: foo_http_service_http_route
+          uri:  http://foo-service
+          predicates:
+            - Path=/services/foohttp/**
+            - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
+          filters:
+            - RewritePath=foohttp(?<segment>/?.*), $\{segment}
+
+        - id: foo_lb_service_http_route
+          uri:  lb://foo-service
+          predicates:
+            - Path=/services/foolb/**
+            - Between=2019-12-08T20:28:00.001+01:00[Europe/Zurich], 3019-12-08T20:30:00.001+01:00[Europe/Zurich]
+          filters:
+            - RewritePath=foolb(?<segment>/?.*), $\{segment}
+            - StripPrefix=3
+            - RewritePath=/service(?<segment>/?.*), $\{segment}
+            - name: Logging
+              args:
+                baseMessage: My Custom Message
+                preLogger: true
+                postLogger: true
+
 #        - id: foo-service_route
 #          uri: http://foo-service
 #          predicates:
@@ -54,7 +70,7 @@ spring:
 
 logging:
   level:
-    org.springframework.cloud.gateway: TRACE
+    org.springframework.cloud.gateway: INFO
     org.springframework.cloud.loadbalancer: TRACE
 
 management:
