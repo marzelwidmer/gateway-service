@@ -1,12 +1,19 @@
 
+```bash
+http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo \
+ forwarded:for='portal.azure.com;host=portal.azure.com;proto=https' 
+```
+
+
 
 ```bash
-http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/services/foolb \
+http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/services/foo \
  x-forwarded-proto:https \
  x-forwarded-host:example.com \
  x-forwarded-port:9090 \
  forwarded:for='portal.azure.com;host=portal.azure.com;proto=https' "Authorization: Bearer ${TOKEN}" 
 ```
+
 
  
 

@@ -1,3 +1,8 @@
+app:
+  root:
+    context: /coolapp*
+    service: ${app.root.context}/services
+
 spring:
   cloud:
     gateway:
@@ -17,22 +22,22 @@ spring:
         for-enabled: false
 
       routes:
-        - id: foo_http_service_http_route
-          uri:  http://foo-service
+        - id: coolapp_foo_service_http_route
           predicates:
-            - Path=/services/foohttp/**
-            - After=2019-12-08T20:27:00.001+01:00[Europe/Zurich]
+            - Path=${app.root.service}/foo/**
+          uri: lb://foo-service
           filters:
-            - RewritePath=foohttp(?<segment>/?.*), $\{segment}
+            - StripPrefix=2
+
 
         - id: foo_lb_service_http_route
           uri:  lb://foo-service
           predicates:
-            - Path=/services/foolb/**
+            - Path=/services/foo/**
             - Between=2019-12-08T20:28:00.001+01:00[Europe/Zurich], 3019-12-08T20:30:00.001+01:00[Europe/Zurich]
           filters:
             - RewritePath=foolb(?<segment>/?.*), $\{segment}
-            - StripPrefix=3
+            - StripPrefix=2
             - RewritePath=/service(?<segment>/?.*), $\{segment}
             - name: Logging
               args:
