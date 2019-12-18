@@ -1,9 +1,7 @@
 
 
 ```bash
-url=http://spring-cloud-gateway-dev.apps.c3smonkey.ch/foo-service/
-
-http -vv GET $url \
+http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/services/foolb \
  x-forwarded-proto:https \
  x-forwarded-host:example.com \
  x-forwarded-port:9090 \
