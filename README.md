@@ -7,7 +7,7 @@ http -vv GET $url \
  x-forwarded-proto:https \
  x-forwarded-host:example.com \
  x-forwarded-port:9090 \
- forwarded:for='portal.azure.com;host=portal.azure.com;proto=https "Authorization: Bearer ${TOKEN}" 
+ forwarded:for='portal.azure.com;host=portal.azure.com;proto=https' "Authorization: Bearer ${TOKEN}" 
 ```
 
  
