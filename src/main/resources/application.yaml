@@ -1,6 +1,47 @@
 
+app:
+  root:
+    context: /coolapp*
+    service: ${app.root.context}/services
 
 spring:
+  profiles:
+    active: default
+    include: common
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+          url-expression: "uri"
+      # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
+      forwarded:
+        enabled: false
+      x-forwarded:
+        enabled: true
+        prefix-enabled: true # this header modifies the uri of the request within the called service
+        prefix-append: false
+        proto-enabled: false
+        proto-append: false
+        port-enabled: false
+        port-append: false
+        host-enabled: false
+        host-append: false
+        for-enabled: false
+        for-append: false
+
+      routes:
+        - id: coolapp-foo-service
+          predicates:
+            - Path=${app.root.service}/foo/**
+          uri: lb://foo-service
+          filters:
+            - StripPrefix=2
+---
+spring:
+  profiles: foobar
+
   cloud:
     gateway:
       # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
