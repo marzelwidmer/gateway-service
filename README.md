@@ -14,8 +14,14 @@ http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/services/foo \
  forwarded:for='portal.azure.com;host=portal.azure.com;proto=https' "Authorization: Bearer ${TOKEN}" 
 ```
 
+```bash
+http -vv GET http://foo-service-dev.apps.c3smonkey.ch \
+ x-forwarded-proto:https \
+ x-forwarded-host:example.com \
+ x-forwarded-port:9090 \
+ forwarded:for='portal.azure.com;host=portal.azure.com;proto=https'
+```
 
- 
 
 # Check Routes
 ```bash

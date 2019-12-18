@@ -1,7 +1,4 @@
-app:
-  root:
-    context: /coolapp*
-    service: ${app.root.context}/services
+
 
 spring:
   cloud:
@@ -22,14 +19,6 @@ spring:
         for-enabled: false
 
       routes:
-        - id: coolapp_foo_service_http_route
-          predicates:
-            - Path=${app.root.service}/foo/**
-          uri: lb://foo-service
-          filters:
-            - StripPrefix=2
-
-
         - id: foo_lb_service_http_route
           uri:  lb://foo-service
           predicates:
@@ -38,7 +27,7 @@ spring:
           filters:
             - RewritePath=foolb(?<segment>/?.*), $\{segment}
             - StripPrefix=2
-            - RewritePath=/service(?<segment>/?.*), $\{segment}
+            - RewritePath=/services(?<segment>/?.*), $\{segment}
             - name: Logging
               args:
                 baseMessage: My Custom Message
