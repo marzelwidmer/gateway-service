@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.2.RELEASE</version>
+        <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ch.keepcalm.demo</groupId>
@@ -149,12 +149,13 @@
 
         <!-- Use mvn fabric8:build -PJib to perform Jib Build -->
         <profile>
-            <id>Jib</id>
-            <activation>
+            <id>fabric8</id>
+            <!--<activation>
                 <os>
                     <family>mac</family>
                 </os>
             </activation>
+            -->
 
             <properties>
                 <fabric8.build.jib>true</fabric8.build.jib>
