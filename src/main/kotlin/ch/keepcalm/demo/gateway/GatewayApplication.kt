@@ -37,7 +37,7 @@ class LivenessProbe {
 class TracerConfiguration {
 
     @Bean
-    fun jaegerTracer(): io.jaegertracing.Configuration = io.jaegertracing.Configuration("catalog-service")
+    fun jaegerTracer(): io.jaegertracing.Configuration = io.jaegertracing.Configuration("gateway-service")
             .withSampler(io.jaegertracing.Configuration.SamplerConfiguration
                     .fromEnv()
                     .withType(ConstSampler.TYPE)

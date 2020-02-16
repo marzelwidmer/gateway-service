@@ -32,5 +32,5 @@ spec:
             - name: "APPLICATION_CONFIGURATION"
               valueFrom:
                 configMapKeyRef:
-                  name: catalog-service-configmap
+                  name: gateway-service-configmap
                   key: application.yaml

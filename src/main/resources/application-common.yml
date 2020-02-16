@@ -19,14 +19,3 @@ logging:
   level:
     org.springframework.cloud.gateway: TRACE
     org.springframework.cloud.loadbalancer: TRACE
-    #ch.helsana.microservice.webforms.gateway.config.LoggingFilterConfig: INFO
-#  file:
-#    path: ./log
-
-#eureka:
-#  instance:
-#    instance-id: ${server.address:localhost}:${spring.application.name}
-#    hostname: ${server.address:localhost}
-#  client:
-#    serviceUrl:
-#      defaultZone: http://${server.address:localhost}:8761/eureka

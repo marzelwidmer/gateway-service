@@ -11,7 +11,7 @@ commonAnnotations:
 
 images:
 - name: docker-registry.default.svc:5000/myproject/demo
-  newName: docker-registry.default.svc:5000/prod/catalog-service
+  newName: docker-registry.default.svc:5000/prod/gateway-service
   newTag: latest
 
 resources:
