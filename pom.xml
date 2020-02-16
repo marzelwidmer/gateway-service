@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ch.keepcalm.demo</groupId>
-    <artifactId>spring-cloud-gateway</artifactId>
+    <artifactId>gateway-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cloud-gateway</name>
+    <name>gateway-service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
