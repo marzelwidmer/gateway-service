@@ -1,4 +1,24 @@
 
+# Skaffold Run Pipeline on OKD
+## Login Internal Docker Registry
+```bash
+docker login -u developer -p `oc whoami -t` registry.apps.c3smonkey.ch
+
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Login Succeeded
+```
+
+# Kustomize 
+```bash
+kustomize build k8s/overlays/dev > k8s-deployment.yaml
+```
+
+## Run Skaffold Pipeline
+```bash
+skaffold run -p monkey
+
+
+
 ```bash
 http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo \
  forwarded:for='portal.azure.com;host=portal.azure.com;proto=https' 
