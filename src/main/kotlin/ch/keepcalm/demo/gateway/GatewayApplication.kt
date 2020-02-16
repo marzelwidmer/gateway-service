@@ -28,3 +28,4 @@ class LivenessProbe {
     @GetMapping(value = ["/alive"])
     fun alive() = "ok"
 }
+

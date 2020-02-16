@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gateway-service
+  name: gateway-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+        - image: docker-registry.default.svc:5000/myproject/demo
+          name: gateway-service
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /alive
+          readinessProbe:
+            periodSeconds: 5
+            failureThreshold: 1
+            httpGet:
+              port: 8080
+              path: /actuator/health
+          env:
+            - name: "APPLICATION_CONFIGURATION"
+              valueFrom:
+                configMapKeyRef:
+                  name: catalog-service-configmap
+                  key: application.yaml

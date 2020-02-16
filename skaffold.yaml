@@ -1,0 +1,39 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+metadata:
+  name: gateway-service
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: gateway-service
+      jib: {}
+
+profiles:
+  - name: monkey
+    activation:
+      - kubeContext: dev/console-c3smonkey-ch:8443/developer
+    build:
+      insecureRegistries:
+        - registry.apps.c3smonkey.ch
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: registry.apps.c3smonkey.ch/dev/gateway-service
+          jib:
+            args: ['-DskipTests' , '-Dimage=registry.apps.c3smonkey.ch/dev/gateway-service']
+
+    deploy:
+      kubectl:
+        manifests:
+          - k8s-deployment.yaml
+
+  - name: local
+    build:
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: gateway-service
+          jib: {}
+      local:
+        push: false
