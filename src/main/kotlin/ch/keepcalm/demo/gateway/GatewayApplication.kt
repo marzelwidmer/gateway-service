@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.*
 import javax.annotation.PostConstruct
 import io.jaegertracing.internal.samplers.ConstSampler
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -35,7 +36,6 @@ class LivenessProbe {
 
 @Component
 class TracerConfiguration {
-
     @Bean
     fun jaegerTracer(): io.jaegertracing.Configuration = io.jaegertracing.Configuration("gateway-service")
             .withSampler(io.jaegertracing.Configuration.SamplerConfiguration

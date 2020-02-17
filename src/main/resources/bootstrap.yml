@@ -6,3 +6,10 @@ spring:
         enabled: true
         mode: polling
         period: 5000
+
+      discovery:
+        enabled: true
+      ribbon:
+        enabled: true
+        mode: service
+

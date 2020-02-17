@@ -1,3 +1,13 @@
+logging:
+  level:
+    org.springframework.cloud.loadbalancer: TRACE
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG
+
+
 management:
   endpoints:
     web:
@@ -14,8 +24,3 @@ management:
     git:
       mode: full
 
-
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.cloud.loadbalancer: TRACE

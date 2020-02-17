@@ -1,4 +1,3 @@
-
 app:
   root:
     context: /coolapp*
@@ -15,3 +14,34 @@ spring:
           enabled: true
           lower-case-service-id: true
           url-expression: "uri"
+      # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
+      forwarded:
+        enabled: false
+      x-forwarded:
+        enabled: true
+        prefix-enabled: true # this header modifies the uri of the request within the called service
+        prefix-append: false
+        proto-enabled: false
+        proto-append: false
+        port-enabled: false
+        port-append: false
+        host-enabled: false
+        host-append: false
+        for-enabled: false
+        for-append: false
+
+      routes:
+        - id: foo_lb_service_http_route
+          uri:  lb://foo-service
+          predicates:
+            - Path=/services/foo/**
+            - Between=2019-12-08T20:28:00.001+01:00[Europe/Zurich], 3019-12-08T20:30:00.001+01:00[Europe/Zurich]
+          filters:
+            - RewritePath=foolb(?<segment>/?.*), $\{segment}
+            - StripPrefix=2
+            - RewritePath=/services(?<segment>/?.*), $\{segment}
+            - name: Logging
+              args:
+                baseMessage: My Custom Message
+                preLogger: true
+                postLogger: true
