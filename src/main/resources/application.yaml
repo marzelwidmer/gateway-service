@@ -32,12 +32,12 @@ spring:
 
 
       routes:
-        - id: account-service
-          uri: http://localhost:8091
+        - id: catalog-service
+          uri: http://localhost:8081
           predicates:
-            - Path=/accounts/**
+            - Path=/animal/**
           filters:
-            - RewritePath=/accounts/(?<path>.*), /$\{path}
+            - RewritePath=/animal/(?<path>.*), /$\{path}
             - name: RequestRateLimiter
               args:
                 redis-rate-limiter.replenishRate: 1

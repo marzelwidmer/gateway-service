@@ -23,15 +23,19 @@ import java.time.Duration
 @SpringBootApplication
 @EnableDiscoveryClient
 class GatewayApplication {
-    @Bean
-    fun userKeyResolver(): KeyResolver {
-        return KeyResolver { exchange: ServerWebExchange? -> Mono.just("1") }
-    }
 
     @PostConstruct
     fun init() {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Zurich"))
         System.out.println("Date in Europe/Zurich: ${Date().toString()}")
+    }
+
+
+    @Bean
+    fun userKeyResolver(): KeyResolver {
+        return KeyResolver {
+            Mono.just("1")
+        }
     }
 
 
@@ -53,9 +57,6 @@ class GatewayApplication {
         }
     }
 }
-
-
-
 
 
 fun main(args: Array<String>) {
