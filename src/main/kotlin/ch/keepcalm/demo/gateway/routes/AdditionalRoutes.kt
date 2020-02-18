@@ -1,10 +1,15 @@
 package ch.keepcalm.demo.gateway.routes
 
 import ch.keepcalm.demo.gateway.filters.LoggingGatewayFilterFactory
+import org.springframework.cloud.client.circuitbreaker.Customizer
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.server.ServerWebExchange
+import reactor.core.publisher.Mono
+import java.time.Duration
 
 @Configuration(proxyBeanMethods = false)
 class AdditionalRoutes {
@@ -68,3 +73,6 @@ class AdditionalRoutes {
                 .build()
     }
 }
+
+
+
