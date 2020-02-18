@@ -16,6 +16,26 @@ kustomize build k8s/overlays/dev > k8s-deployment.yaml
 ## Run Skaffold Pipeline
 ```bash
 skaffold run -p monkey
+```
+
+## RateLimite Test
+```bash
+for i in {1..10}; do http "http://localhost:8080/test-kotlin" ; done
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

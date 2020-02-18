@@ -1,17 +1,13 @@
 package ch.keepcalm.demo.gateway.routes
 
 import ch.keepcalm.demo.gateway.filters.LoggingGatewayFilterFactory
-import org.springframework.cloud.gateway.filter.factory.HystrixGatewayFilterFactory
-import org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.*
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.redis.connection.stream.Consumer
 import java.time.ZonedDateTime
-
 
 @Configuration
 class AdditionalRoutes {
@@ -44,34 +40,6 @@ class AdditionalRoutes {
 
     @Bean
     fun rate () = RedisRateLimiter(1, 2)
-
-//    redis-rate-limiter.replenishRate: 1
-//    redis-rate-limiter.burstCapacity: 2
-
-//    @Bean
-//    fun customRouteLocator(builder: RouteLocatorBuilder): RouteLocator? {
-//        return builder.routes()
-//                .route("limit_route") { r: PredicateSpec ->
-//                    r.before(ZonedDateTime.now())
-//                    r.path("/anything/**")
-//                            .filters{
-//                                f: GatewayFilterSpec -> f.re
-//                            }
-//
-//
-////                            .filters { f: GatewayFilterSpec ->
-////
-////                                f.requestRateLimiter { c: RequestRateLimiterGatewayFilterFactory.Config ->
-////                                    c.rateLimiter = RedisRateLimiter(1, 2)
-////
-////                                }
-////                            }
-//                            .uri("http://httpbin.org")
-//                }
-//
-//                .build()
-//    }
-
 
     @Bean
     fun catalogRoutesK8s(
