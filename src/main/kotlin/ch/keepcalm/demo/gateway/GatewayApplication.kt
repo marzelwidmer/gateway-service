@@ -31,12 +31,7 @@ class GatewayApplication {
     }
 
 
-    @Bean
-    fun userKeyResolver(): KeyResolver {
-        return KeyResolver {
-            Mono.just("1")
-        }
-    }
+
 
 
     @Bean

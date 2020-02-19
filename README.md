@@ -10,7 +10,7 @@ Login Succeeded
 
 # Kustomize 
 ```bash
-kustomize build k8s/overlays/dev > k8s-deployment.yaml
+kustomize build k8s/overlays/dev > deployment.yaml
 ```
 
 ## Run Skaffold Pipeline
@@ -26,11 +26,30 @@ for i in {1..10}; do http "http://localhost:8080/test-kotlin" ; done
 
 
 
+## Redis 
+### Remote Shell in Redis POD
+```bash
+oc rsh redis-1-j8d67
+```
+### Open Redis CLI
+```bash
+sh-4.2$ redis-cli
+```
 
+### Authenticate 
+```bash
+127.0.0.1:6379> auth <password>
+```
 
-
-
-
+### Retrieving All Existing Keys 
+The Keys are only temporaries when the rate limit has been recognized
+https://chartio.com/resources/tutorials/how-to-get-all-keys-in-redis/
+```bash
+127.0.0.1:6379> KEYS *
+1) "request_rate_limiter.{1}.timestamp"
+2) "request_rate_limiter.{1}.tokens"
+127.0.0.1:6379>
+```
 
 
 

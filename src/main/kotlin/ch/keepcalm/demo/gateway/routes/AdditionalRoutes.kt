@@ -1,12 +1,14 @@
 package ch.keepcalm.demo.gateway.routes
 
 import ch.keepcalm.demo.gateway.filters.LoggingGatewayFilterFactory
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
 import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter
 import org.springframework.cloud.gateway.route.RouteLocator
 import org.springframework.cloud.gateway.route.builder.*
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import reactor.core.publisher.Mono
 import java.time.ZonedDateTime
 
 @Configuration
@@ -40,6 +42,12 @@ class AdditionalRoutes {
 
     @Bean
     fun rate () = RedisRateLimiter(1, 2)
+    @Bean
+    fun userKeyResolver(): KeyResolver {
+        return KeyResolver {
+            Mono.just("1")
+        }
+    }
 
     @Bean
     fun catalogRoutesK8s(

@@ -1,3 +1,7 @@
+spring:
+  redis:
+    host: redis.dev.svc.cluster.local
+
 opentracing:
   jaeger:
     log-spans: true

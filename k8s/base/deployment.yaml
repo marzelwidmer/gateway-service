@@ -28,9 +28,11 @@ spec:
             httpGet:
               port: 8080
               path: /actuator/health
-          env:
-            - name: "APPLICATION_CONFIGURATION"
-              valueFrom:
-                configMapKeyRef:
-                  name: gateway-service-configmap
-                  key: application.yaml
+          volumeMounts:
+            - name: gateway-service
+              mountPath: /config
+      volumes:
+        - name: "gateway-service"
+          configMap:
+            name: "gateway-service-configmap"
+
