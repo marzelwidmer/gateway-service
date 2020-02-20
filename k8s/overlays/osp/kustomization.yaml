@@ -22,3 +22,6 @@ images:
 resources:
   - ../../base/
   - route.yaml
+
+patchesStrategicMerge:
+  - memorylimit_patch.yaml
