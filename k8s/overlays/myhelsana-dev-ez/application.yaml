@@ -1,0 +1,11 @@
+spring:
+  redis:
+    host: redis.myhelsana-dev-ez.svc.cluster.local
+    port: 6379
+    jedis:
+      pool:
+        maxIdle: 50 # max idle connections in the pool
+        minIdle: 10 # min idle connections in the pool
+        maxActive: -1 # no limit to the number of active connections
+        maxWait: 30000 # time limit to get a connection - only applies if maxActive is finite
+    password: yQbT0Iy35nlADTL3

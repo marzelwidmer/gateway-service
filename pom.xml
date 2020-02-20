@@ -212,9 +212,6 @@
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                     <container>
                         <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                       <!-- <jvmFlags>
-                            <jvmFlag>-Xms512m</jvmFlag>
-                        </jvmFlags>-->
                     </container>
                 </configuration>
                 <executions>
