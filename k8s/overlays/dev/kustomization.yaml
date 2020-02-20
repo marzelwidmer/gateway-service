@@ -10,17 +10,21 @@ commonAnnotations:
   component: fsl-backend
 
 images:
-- name: docker-registry.default.svc:5000/myproject/demo
-  newName: docker-registry.default.svc:5000/dev/gateway-service
-  newTag: latest
+  - name: docker-registry.default.svc:5000/myproject/demo
+    newName: docker-registry.default.svc:5000/dev/gateway-service
+    newTag: latest
 
 resources:
-- ../../base/
-- route.yaml
+  - ../../base/
+  - route.yaml
+
+
 
 configMapGenerator:
   - name: gateway-service-configmap
     behavior: merge
     files:
-      - application.yaml
+      - ./config-files/application.yaml
+
+
 

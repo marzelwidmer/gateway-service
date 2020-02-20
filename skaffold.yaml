@@ -26,7 +26,7 @@ profiles:
     deploy:
       kubectl:
         manifests:
-          - deployment.yaml
+          - deployment-dev.yaml
 
   - name: local
     build:

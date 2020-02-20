@@ -1,9 +1,0 @@
-spring:
-  redis:
-    host: redis.dev.svc.cluster.local
-
-opentracing:
-  jaeger:
-    log-spans: true
-    http-sender:
-      url: https://jaeger-collector-jaeger.apps.c3smonkey.ch/api/traces
