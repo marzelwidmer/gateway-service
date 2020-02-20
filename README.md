@@ -57,6 +57,25 @@ https://chartio.com/resources/tutorials/how-to-get-all-keys-in-redis/
 
 
 
+# Kustomize myhelsana-dev-ez
+```bash
+kustomize build k8s/overlays/myhelsana-dev-ez > deployment-myhelsana-dev-ez.yaml
+```
+
+## Run Skaffold Pipeline
+```bash
+skaffold run -p myhelsana-dev-ez
+```
+
+
+
+
+
+
+
+
+
+
 
 ```bash
 http -vv GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo \

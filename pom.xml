@@ -197,6 +197,9 @@
                 </executions>
             </plugin>
 
+
+
+
             <!-- Jib -->
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
@@ -209,9 +212,9 @@
                     <allowInsecureRegistries>true</allowInsecureRegistries>
                     <container>
                         <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-                        <jvmFlags>
+                       <!-- <jvmFlags>
                             <jvmFlag>-Xms512m</jvmFlag>
-                        </jvmFlags>
+                        </jvmFlags>-->
                     </container>
                 </configuration>
                 <executions>
