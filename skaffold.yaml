@@ -39,6 +39,26 @@ profiles:
         push: false
 
 
+
+  - name: myhelsana-dev-az
+    activation:
+      - kubeContext: myhelsana-dev-az/osp-preprod-hel-kko-ch:443
+    build:
+      insecureRegistries:
+        - registry.osp-appl-preprod.hel.kko.ch
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-az/gateway-service
+          jib:
+            args: ['-Djib.from.image=registry.osp-appl-preprod.hel.kko.ch/myhelsana-build-dz/openjdk18-openshift:spring', '-Dimage=registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-az/gateway-service']
+
+    deploy:
+      kubectl:
+        manifests:
+          - deployment-myhelsana-dev-az.yaml
+
+
   - name: myhelsana-dev-ez
     activation:
       - kubeContext: myhelsana-dev-ez/osp-preprod-hel-kko-ch:443
@@ -50,7 +70,7 @@ profiles:
       artifacts:
         - image: registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-ez/gateway-service
           jib:
-            args: ['-Djib.from.image=registry.osp-appl-preprod.hel.kko.ch/myhelsana-build-dz/openjdk18-openshift:latest', '-Dimage=registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-ez/gateway-service']
+            args: ['-Djib.from.image=registry.osp-appl-preprod.hel.kko.ch/myhelsana-build-dz/openjdk18-openshift:spring', '-Dimage=registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-ez/gateway-service']
 
     deploy:
       kubectl:
