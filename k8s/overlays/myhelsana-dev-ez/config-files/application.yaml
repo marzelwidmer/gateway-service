@@ -1,4 +1,10 @@
+app:
+  root:
+    context: /myhelsana2*
+    service: ${app.root.context}/services
+
 spring:
+
   redis:
     host: redis.myhelsana-dev-ez.svc.cluster.local
     port: 6379
@@ -9,3 +15,18 @@ spring:
         maxActive: -1 # no limit to the number of active connections
         maxWait: 30000 # time limit to get a connection - only applies if maxActive is finite
     password: yQbT0Iy35nlADTL3
+
+  cloud:
+    gateway:
+      routes:
+        - id: webforms-service
+          predicates:
+            - Path=${app.root.service}/**
+          uri: http://webforms-service:8080
+          filters:
+            - StripPrefix=2
+        - id: webforms-frontend
+          predicates:
+            - Path=${app.root.context}/**
+          uri: http://webforms-frontend:8080
+          order: 10 # last rule to apply, as there are more specific rules -> see also DebugRoutes

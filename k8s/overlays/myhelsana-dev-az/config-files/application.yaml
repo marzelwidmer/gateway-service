@@ -9,3 +9,21 @@ spring:
         maxActive: -1 # no limit to the number of active connections
         maxWait: 30000 # time limit to get a connection - only applies if maxActive is finite
     password: yQbT0Iy35nlADTL3
+
+
+  cloud:
+    gateway:
+
+      routes:
+        - id: myhelsana2
+          uri: http://catalog-service.myhelsana-dev-az.svc:8080
+          predicates:
+            - Path=/myhelsana2/**
+          filters:
+            - RewritePath=/myhelsana2(?<path>.*), /$\{path}
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 2
+
+
