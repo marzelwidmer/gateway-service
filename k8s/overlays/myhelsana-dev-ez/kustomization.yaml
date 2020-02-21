@@ -14,7 +14,6 @@ images:
     newName: docker-registry.default.svc:5000/myhelsana-dev-ez/gateway-service
     newTag: latest
 
-
 resources:
   - ../../base/
   - route.yaml
@@ -26,5 +25,6 @@ configMapGenerator:
   - name: gateway-service-configmap
     behavior: merge
     files:
-      - application.yaml
+      - ./config-files/application.yaml
+
 

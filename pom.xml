@@ -28,7 +28,7 @@
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <graceful-shutdown.version>2.0.1</graceful-shutdown.version>
-        <LatencyUtils.version>2.0.3</LatencyUtils.version>  <!--  Needed After Spring Boot Starter upgrade to Version 2.2.4.RELEASE-->
+        <latencyUtils.version>2.0.3</latencyUtils.version>  <!--  Needed After Spring Boot Starter upgrade to Version 2.2.4.RELEASE-->
     </properties>
 
 
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.latencyutils</groupId>
             <artifactId>LatencyUtils</artifactId>
-            <version>${LatencyUtils.version}</version>
+            <version>${latencyUtils.version}</version>
         </dependency>
 
         <dependency>

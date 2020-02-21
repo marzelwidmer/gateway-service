@@ -18,8 +18,6 @@ resources:
   - ../../base/
   - route.yaml
 
-
-
 configMapGenerator:
   - name: gateway-service-configmap
     behavior: merge

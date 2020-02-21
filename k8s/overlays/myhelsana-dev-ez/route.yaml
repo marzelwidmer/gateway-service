@@ -6,7 +6,7 @@ metadata:
     env: dev
     stage: dev
   name: gateway-service
-  namespace: dev
+  namespace: myhelsana-dev-ez
 spec:
   host: gateway-service-myhelsana-dev-ez.osp-appl-preprod.hel.kko.ch
   port:
