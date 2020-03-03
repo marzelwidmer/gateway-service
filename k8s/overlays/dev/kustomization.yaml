@@ -32,5 +32,5 @@ configMapGenerator:
 secretGenerator:
   - name: gateway-service-secret
     literals:
-      - REDIS_PASSWORD=yQbT0Iy35nlADTL3
+      - spring.redis.password=yQbT0Iy35nlADTL3
 
