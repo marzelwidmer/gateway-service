@@ -7,8 +7,3 @@ resources:
 
 commonLabels:
     stage: dev
-
-configMapGenerator:
-  - name: gateway-service-configmap
-    files:
-      - ./config-files/application.yaml
