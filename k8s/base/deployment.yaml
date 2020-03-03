@@ -28,11 +28,5 @@ spec:
             httpGet:
               port: 8080
               path: /actuator/health
-#          volumeMounts:
-#            - name: gateway-service
-#              mountPath: /config
-#      volumes:
-#        - name: "gateway-service"
-#          configMap:
-#            name: "gateway-service-configmap"
+
 

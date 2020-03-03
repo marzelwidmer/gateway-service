@@ -19,7 +19,7 @@ resources:
   - route.yaml
 
 patchesStrategicMerge:
-  - memorylimit_patch.yaml
+  - patch-memorylimit.yaml
   - update-replicas.yaml
   - use-configmap.yaml
 
