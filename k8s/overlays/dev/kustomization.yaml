@@ -22,12 +22,15 @@ patchesStrategicMerge:
   - patch-memorylimit.yaml
   - update-replicas.yaml
   - use-configmap.yaml
+  - use-secrets.yaml
 
 configMapGenerator:
   - name: gateway-service-config
     files:
       - ./config-files/application.yaml
 
-
-
+secretGenerator:
+  - name: gateway-service-secret
+    literals:
+      - REDIS_PASSWORD=yQbT0Iy35nlADTL3
 
