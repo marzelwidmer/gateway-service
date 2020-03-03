@@ -13,6 +13,23 @@ Login Succeeded
 kustomize build k8s/overlays/dev > deployment.yaml
 ```
 
+# Secrets
+Pass secrest as bcrypt
+```
+spring encodepassword yQbT0Iy35nlADTL3 | tr -d "\n" | clipcopy
+```
+## Kustomize Secret config
+```
+
+secretGenerator:
+  - name: gateway-service-secret
+    literals:
+      - spring.redis.password={bcrypt}$2a$10$9gkvlwXBwxAfrFatfFJT1OmzBmtVfbGBAGdpetB..wEx9WF5saDre
+
+
+```
+
+
 ## Run Skaffold Pipeline
 ```bash
 skaffold run -p monkey
