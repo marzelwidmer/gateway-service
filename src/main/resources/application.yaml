@@ -38,4 +38,22 @@ spring:
                 redis-rate-limiter.replenishRate: 1
                 redis-rate-limiter.burstCapacity: 2
 
+security:
+  jwt:
+    issuer: Helsana Auth Portal
+    audience: Helsana
+    secret: willbereplacedinalaterversiononceRSAcanbeused
 
+---
+spring:
+  profiles: local
+
+logging:
+  level:
+    root: debug
+
+opentracing:
+  jaeger:
+    log-spans: true
+    http-sender:
+      url: http://localhost:14268/api/traces

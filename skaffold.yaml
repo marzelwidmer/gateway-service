@@ -10,6 +10,7 @@ build:
       jib: {}
 
 profiles:
+# c3smonkey
   - name: monkey
     activation:
       - kubeContext: dev/console-c3smonkey-ch:8443/developer
@@ -25,7 +26,7 @@ profiles:
     deploy:
       kustomize:
         paths: ["k8s/overlays/dev"]
-
+# Minishift
   - name: local
     build:
       tagPolicy:
@@ -35,4 +36,21 @@ profiles:
           jib: {}
       local:
         push: false
+
+# myhelsana-dev-ez
+  - name: myhelsana-dev-ez
+    activation:
+      - kubeContext: myhelsana-dev-ez/osp-preprod-hel-kko-ch:443
+    build:
+      insecureRegistries:
+        - registry.osp-appl-preprod.hel.kko.ch
+      tagPolicy:
+        sha256: {}
+      artifacts:
+        - image: registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-ez/gateway-service
+          jib:
+            args: ['-Djib.from.image=registry.osp-appl-preprod.hel.kko.ch/myhelsana-build-dz/openjdk18-openshift:spring', '-Dimage=registry.osp-appl-preprod.hel.kko.ch/myhelsana-dev-ez/gateway-service']
+    deploy:
+      kustomize:
+        paths: ["k8s/overlays/myhelsana-dev-ez"]
 

@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <kotlin.version>1.3.61</kotlin.version>
+        <kotlin.version>1.3.70</kotlin.version>
 
         <jaeger.version>2.0.3</jaeger.version>
         <swagger.version>2.9.2</swagger.version>
@@ -52,6 +52,17 @@
             <artifactId>LatencyUtils</artifactId>
             <version>${latencyUtils.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -196,9 +207,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
-
 
             <!-- Jib -->
             <plugin>

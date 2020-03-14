@@ -1,0 +1,3 @@
+## In future we don`t commit this key anymore. then we will provide it with the HashiCorp Vault maybe.
+encrypt:
+  key: secretkey

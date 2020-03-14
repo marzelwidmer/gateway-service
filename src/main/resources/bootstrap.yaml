@@ -12,4 +12,18 @@ spring:
       ribbon:
         enabled: true
         mode: service
+  devtools:
+    add-properties: false
 
+---
+spring:
+  profiles: local
+
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+      reload:
+        enabled: false
+  devtools:
+    add-properties: true

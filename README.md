@@ -1,4 +1,75 @@
 
+
+ 
+# OKD cheat sheet
+[oc cli tricks](https://gist.github.com/tuxfight3r/79bddbf4af9b6d13d590670c40fec3e0#file-openshift_cli_tricks-md)
+
+Show not Running POD's
+```bash
+$ oc get pods --field-selector=status.phase!=Running
+```
+
+Show only Running POD's
+```bash
+$ oc get pods --field-selector=status.phase=Running
+```
+
+Get Secret
+```bash
+$ oc get bc/catalog-service-pipeline -n jenkins -o json | jq '.spec.triggers[].github.secret'
+```
+
+Get Route Host
+```bash
+$ oc get route/jaeger-collector -o json | jq '.spec.host'e
+```
+
+Tail log of POD
+```bash
+$ oc logs -f order-service-22-cqqn4 --tail=50
+```
+
+# Git cheatsheet
+- [git-log-format](https://devhints.io/git-log-format)
+- [git-log](https://devhints.io/git-log)
+- [git-tricks](https://devhints.io/git-tricks)
+- [git-branch](https://devhints.io/git-branch)
+- [git-revisions](https://devhints.io/git-revisions)
+- [tig](https://devhints.io/tig)
+- [git-extras](https://devhints.io/git-extras)
+
+
+
+# Stern
+see: https://github.com/wercker/stern
+```bash
+ stern gateway-service
+```
+
+
+# Jaeger Docker Setup Local Machine
+
+## Initial run
+```
+docker run -d --name jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p 5775:5775/udp -p 6831:6831/udp -p 6832:6832/udp -p 5778:5778 -p 16686:16686 -p 14268:14268 -p 9411:9411 jaegertracing/all-in-one:1.16
+```
+
+## Stop Jaeger
+```
+docker stop jaeger 
+```
+## Start Jaeger
+```
+docker start jaeger 
+```
+
+## URL
+```
+http://localhost:16686/
+```
+
+
+
 # Skaffold Run Pipeline on OKD
 ## Login Internal Docker Registry
 ```bash
@@ -8,27 +79,24 @@ WARNING! Using --password via the CLI is insecure. Use --password-stdin.
 Login Succeeded
 ```
 
+# Skaffold and Kustomize
+## Build
+```bash
+skaffold build -p monkey
+```
+## Build
+```bash
+skaffold build -p monkey
+```
+
+
+
+
+## Separate Steps
 # Kustomize 
 ```bash
 kustomize build k8s/overlays/dev > deployment.yaml
 ```
-
-# Secrets
-Pass secrest as bcrypt
-```
-spring encodepassword yQbT0Iy35nlADTL3 | tr -d "\n" | clipcopy
-```
-## Kustomize Secret config
-```
-
-secretGenerator:
-  - name: gateway-service-secret
-    literals:
-      - spring.redis.password={bcrypt}$2a$10$9gkvlwXBwxAfrFatfFJT1OmzBmtVfbGBAGdpetB..wEx9WF5saDre
-
-
-```
-
 
 ## Run Skaffold Pipeline
 ```bash
@@ -136,41 +204,6 @@ Content-Type: application/json
     "route_id": "openshift_route",
     "uri": "http://foo-service-development.apps.c3smonkey.ch:80"
 }
-```
-
-
-# Fabric8 
-
-Create Projects
-```bash
-oc new-project build --display-name="Build Environment"
-oc new-project dev --display-name="Development Stage"
-```
-
-Add `Pull` policy to pull image from `Build` namespace
-```bash
-oc policy add-role-to-group system:image-puller system:serviceaccounts:dev -n build
-```
-
-
-Create Resource for `Dev` namespace.
-```bash
-mvn clean fabric8:resource -Dfabric8.namespace=dev
-```
-
-Apply Configuration
-```bash
-mvn fabric8:resource-apply -Dfabric8.namespace=dev
-```
-Set Trigger for `Build` project image change.
-```bash
-oc set triggers dc/spring-cloud-gateway --from-image=build/spring-cloud-gateway:latest -c spring-cloud-gateway -ndev
-
-```
-
-Build Application in `Build` namespace.
-```bash
-mvn package fabric8:build  -Dfabric8.namespace=build
 ```
 
 

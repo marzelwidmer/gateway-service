@@ -1,27 +1,34 @@
 package ch.keepcalm.demo.gateway
 
+import ch.keepcalm.demo.gateway.security.jwt.JwtSecurityProperties
 import ch.sbb.esta.openshift.gracefullshutdown.GracefulshutdownSpringApplication
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import io.github.resilience4j.timelimiter.TimeLimiterConfig
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient
-import org.springframework.context.annotation.Bean
-import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
-import java.util.*
-import javax.annotation.PostConstruct
 import io.jaegertracing.internal.samplers.ConstSampler
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder
 import org.springframework.cloud.client.circuitbreaker.Customizer
-import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
-import org.springframework.web.server.ServerWebExchange
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import org.springframework.context.annotation.Bean
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.stereotype.Component
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
+import java.security.Principal
 import java.time.Duration
+import java.util.*
+import javax.annotation.PostConstruct
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableWebFluxSecurity
+@EnableConfigurationProperties(JwtSecurityProperties::class)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 class GatewayApplication {
 
     @PostConstruct
@@ -29,9 +36,6 @@ class GatewayApplication {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Zurich"))
         System.out.println("Date in Europe/Zurich: ${Date().toString()}")
     }
-
-
-
 
 
     @Bean
@@ -53,30 +57,7 @@ class GatewayApplication {
     }
 }
 
-
 fun main(args: Array<String>) {
     GracefulshutdownSpringApplication.run(GatewayApplication::class.java, *args)
+//    SpringApplication.run(GatewayApplication::class.java, *args)
 }
-
-
-@RestController
-class LivenessProbe {
-    @GetMapping(value = ["/alive"])
-    fun alive() = "ok"
-}
-
-
-@Component
-class TracerConfiguration {
-    @Bean
-    fun jaegerTracer(): io.jaegertracing.Configuration = io.jaegertracing.Configuration("gateway-service")
-            .withSampler(io.jaegertracing.Configuration.SamplerConfiguration
-                    .fromEnv()
-                    .withType(ConstSampler.TYPE)
-                    .withParam(1))
-            .withReporter(io.jaegertracing.Configuration.ReporterConfiguration
-                    .fromEnv()
-                    .withLogSpans(true))
-}
-
-

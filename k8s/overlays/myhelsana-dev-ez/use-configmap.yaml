@@ -1,8 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: gateway-service
   name: gateway-service
 spec:
   template:
