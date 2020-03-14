@@ -18,9 +18,9 @@ import org.springframework.security.web.server.authentication.ServerAuthenticati
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 
 
-const val ROLE_MYHELSANA_FAVOR = "keepcalm.user" // FAVOR
-const val ROLE_MYHELSANA_MEMBER = "keepcalm.mitglied" // Mitglied
-const val ROLE_MYHELSANA_LIGHT = "keepcalm.light" // Light
+const val ROLE_KEEPCALM_FAVOR = "keepcalm.user" // FAVOR
+const val ROLE_KEEPCALM_MEMBER = "keepcalm.mitglied" // Mitglied
+const val ROLE_KEEPCALM_LIGHT = "keepcalm.light" // Light
 const val ROLE_ACTUATOR = "ACTUATOR"
 
 
@@ -41,8 +41,8 @@ class SecurityConfiguration {
                             .pathMatchers("/alive").permitAll()
                             .pathMatchers("/me").permitAll()
                             .pathMatchers("/actuator/health").permitAll()
-                            .pathMatchers("/light/**").hasAnyAuthority(ROLE_MYHELSANA_LIGHT)
-                            .pathMatchers("/api/**").hasAnyAuthority(ROLE_MYHELSANA_FAVOR, ROLE_MYHELSANA_MEMBER)
+                            .pathMatchers("/light/**").hasAnyAuthority(ROLE_KEEPCALM_LIGHT)
+                            .pathMatchers("/api/**").hasAnyAuthority(ROLE_KEEPCALM_FAVOR, ROLE_KEEPCALM_MEMBER)
                 }
                 )
                 .authorizeExchange()

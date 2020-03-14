@@ -9,10 +9,10 @@ import java.security.Principal
 @RestController
 class Foo {
     @GetMapping(value = ["/api/foo"])
-    fun foo() = "Welcome to ROLE_MYHELSANA_MEMBER and ROLE_MYHELSANA_FAVOR"
+    fun foo() = "Welcome to ROLE_KEEPCALM_MEMBER and ROLE_KEEPCALM_FAVOR"
 
     @GetMapping(value = ["/light"])
-    fun bar() = "Welcome to ROLE_MYHELSANA_LIGHT"
+    fun bar() = "Welcome to ROLE_KEEPCALM_LIGHT"
 
 }
 

@@ -82,9 +82,9 @@ class ErrorHandler(private val objectMapper: ObjectMapper) {
     companion object {
         private val LOG = LoggerFactory.getLogger(ErrorHandler::class.java)
 
-        const val INTERNAL_ERROR_TYPE = "https://helsana.ch/problem/internal-error"
-        const val NOT_FOUND_TYPE = "https://helsana.ch/problem/not-found"
-        const val UNAUTHORIZED_TYPE = "https://helsana.ch/problem/unauthorized"
-        const val FORBIDDEN_TYPE = "https://helsana.ch/problem/forbidden"
+        const val INTERNAL_ERROR_TYPE = "https://keepcalm.ch/problem/internal-error"
+        const val NOT_FOUND_TYPE = "https://keepcalm.ch/problem/not-found"
+        const val UNAUTHORIZED_TYPE = "https://keepcalm.ch/problem/unauthorized"
+        const val FORBIDDEN_TYPE = "https://keepcalm.ch/problem/forbidden"
     }
 }
