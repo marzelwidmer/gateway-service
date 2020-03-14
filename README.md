@@ -112,6 +112,10 @@ for i in {1..10}; do http "http://localhost:8080/test-kotlin" ; done
 
 
 ## Redis 
+```bash
+docker run --name redis -p 6379:6379 -d redis
+```
+
 ### Remote Shell in Redis POD
 ```bash
 oc rsh redis-1-j8d67

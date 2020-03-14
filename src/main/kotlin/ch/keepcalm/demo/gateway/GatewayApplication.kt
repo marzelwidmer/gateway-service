@@ -8,11 +8,15 @@ import io.jaegertracing.internal.samplers.ConstSampler
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.runApplication
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder
 import org.springframework.cloud.client.circuitbreaker.Customizer
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter
 import org.springframework.context.annotation.Bean
+import org.springframework.context.support.beans
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.stereotype.Component
@@ -58,6 +62,16 @@ class GatewayApplication {
 }
 
 fun main(args: Array<String>) {
-    GracefulshutdownSpringApplication.run(GatewayApplication::class.java, *args)
-//    SpringApplication.run(GatewayApplication::class.java, *args)
+//    GracefulshutdownSpringApplication.run(GatewayApplication::class.java, *args)
+    runApplication<GatewayApplication>(*args) {
+        val context = beans {
+            bean{
+                RedisRateLimiter(5, 7)
+            }
+            bean {
+                KeyResolver { Mono.just("1") }
+            }
+        }
+        addInitializers(context)
+    }
 }

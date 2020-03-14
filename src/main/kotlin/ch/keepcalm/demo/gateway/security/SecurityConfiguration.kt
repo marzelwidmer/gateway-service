@@ -39,6 +39,7 @@ class SecurityConfiguration {
                 .authorizeExchange(Customizer { exchanges: AuthorizeExchangeSpec ->
                     exchanges
                             .pathMatchers("/alive").permitAll()
+                            .pathMatchers("/test-kotlin").permitAll()
                             .pathMatchers("/me").permitAll()
                             .pathMatchers("/actuator/health").permitAll()
                             .pathMatchers("/light/**").hasAnyAuthority(ROLE_KEEPCALM_LIGHT)

@@ -24,27 +24,18 @@ class AdditionalRoutes {
             }
 
     @Bean
-    fun additionalRouteLocator(builder: RouteLocatorBuilder, ctx: ApplicationContext) = builder.routes {
+    fun additionalRouteLocator(builder: RouteLocatorBuilder, ctx: ApplicationContext, redisRateLimiter: RedisRateLimiter) = builder.routes {
         route(id = "test-kotlin") {
             path("/test-kotlin")
             filters {
                 stripPrefix(1)
                 addResponseHeader("X-TestHeader", "foobar")
                 requestRateLimiter {
-                    it.rateLimiter = rate()
+                    it.rateLimiter = redisRateLimiter
 
                 }
             }
             uri("http://httpbin.org")
-        }
-    }
-
-    @Bean
-    fun rate () = RedisRateLimiter(1, 2)
-    @Bean
-    fun userKeyResolver(): KeyResolver {
-        return KeyResolver {
-            Mono.just("1")
         }
     }
 
@@ -99,6 +90,5 @@ class AdditionalRoutes {
                 .build()
     }
 }
-
 
 
