@@ -40,8 +40,8 @@ spring:
 
 security:
   jwt:
-    issuer: Helsana Auth Portal
-    audience: Helsana
+    issuer: Keepcalm Auth Portal
+    audience: Keepcalm
     secret: willbereplacedinalaterversiononceRSAcanbeused
 
 ---

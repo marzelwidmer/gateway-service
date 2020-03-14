@@ -18,9 +18,9 @@ import org.springframework.security.web.server.authentication.ServerAuthenticati
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
 
 
-const val ROLE_MYHELSANA_FAVOR = "myhelsana.user" // FAVOR
-const val ROLE_MYHELSANA_MEMBER = "myhelsana.mitglied" // Mitglied
-const val ROLE_MYHELSANA_LIGHT = "myhelsana.light" // Light
+const val ROLE_MYHELSANA_FAVOR = "keepcalm.user" // FAVOR
+const val ROLE_MYHELSANA_MEMBER = "keepcalm.mitglied" // Mitglied
+const val ROLE_MYHELSANA_LIGHT = "keepcalm.light" // Light
 const val ROLE_ACTUATOR = "ACTUATOR"
 
 
