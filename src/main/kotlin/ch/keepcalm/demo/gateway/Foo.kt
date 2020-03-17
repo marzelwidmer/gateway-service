@@ -18,9 +18,9 @@ class Foo {
 
 
 @RestController
-class GreetController {
+class WhoAmIController {
     @GetMapping("/me")
-    fun greet(principal: Mono<Principal>): Mono<Principal> {
+    fun me(principal: Mono<Principal>): Mono<Principal> {
         return principal
     }
 }

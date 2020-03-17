@@ -1,11 +1,10 @@
 package ch.keepcalm.demo.gateway
 
 import ch.keepcalm.demo.gateway.security.jwt.JwtSecurityProperties
-import ch.sbb.esta.openshift.gracefullshutdown.GracefulshutdownSpringApplication
+import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import io.github.resilience4j.timelimiter.TimeLimiterConfig
 import io.jaegertracing.internal.samplers.ConstSampler
-import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
@@ -19,58 +18,152 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.support.beans
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
-import java.security.Principal
 import java.time.Duration
-import java.util.*
-import javax.annotation.PostConstruct
+import java.util.function.Consumer
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
-class GatewayApplication {
+class GatewayApplication
+//{
+//To enable circuit breaker built on top of Resilience4J we need to declare Customizer bean that is
+// passed a ReactiveResilience4JCircuitBreakerFactory. The very simple configuration contains default circuit breaker
+// settings and and defines timeout duration using TimeLimiterConfig.
+// For the first test I decided to set 200 milliseconds timeout.
+//    @Bean
+//    fun defaultCustomizer(): Customizer<ReactiveResilience4JCircuitBreakerFactory>? {
+//        return Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//            factory.configureDefault { id: String? ->
+//                Resilience4JConfigBuilder(id)
+//                        .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
+//                        .build()
+//            }
+//        }
+//    }
 
-    @PostConstruct
-    fun init() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Zurich"))
-        System.out.println("Date in Europe/Zurich: ${Date().toString()}")
-    }
+// The property slidingWindowSize defines how many outcome calls has to be recorded when a circuit breaker is closed.
+// Assuming we have the same test endpoints what will happen if we change this value to 10 as shown below?
+//    @Bean
+//    fun defaultCustomizerWithSlidingWindowSize(): Customizer<ReactiveResilience4JCircuitBreakerFactory>? {
+//        return Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//            factory.configureDefault { id: String? ->
+//                Resilience4JConfigBuilder(id)
+//                        .circuitBreakerConfig(CircuitBreakerConfig.custom()
+//                                .slidingWindowSize(10)
+//                                .build())
+//                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build()).build()
+//            }
+//        }
+//    }
 
 
-    @Bean
-    fun defaultCustomizer(): Customizer<ReactiveResilience4JCircuitBreakerFactory> {
-        return Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
-            factory.configureDefault { id: String? ->
-                Resilience4JConfigBuilder(id)
-                        .circuitBreakerConfig(CircuitBreakerConfig.custom()
-                                .slidingWindowSize(5)
-                                .permittedNumberOfCallsInHalfOpenState(5)
-                                .failureRateThreshold(50.0f)
-                                .waitDurationInOpenState(Duration.ofMillis(30))
-                        .slowCallRateThreshold(50.0F)
-                                .build())
-                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
-                        .build()
-            }
-        }
-    }
-}
+//    @Bean
+//    fun defaultCustomizerFailureRateThreshold(): Customizer<ReactiveResilience4JCircuitBreakerFactory>? {
+//        return Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//            factory.configureDefault { id: String? ->
+//                Resilience4JConfigBuilder(id)
+//                        .circuitBreakerConfig(CircuitBreakerConfig.custom()
+//                                .slidingWindowSize(10)
+//                                .failureRateThreshold(66.6f)
+//                                .build())
+//                        .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build()).build()
+//            }
+//        }
+//    }
+
+//@Bean
+//fun slowCusomtizer(): Customizer<ReactiveResilience4JCircuitBreakerFactory>? {
+//    return Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//        factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
+//            builder
+//                    .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2)).build())
+//                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//        }, "slow", "slowflux")
+//        factory.addCircuitBreakerCustomizer(Customizer { circuitBreaker: CircuitBreaker ->
+//            circuitBreaker.eventPublisher
+//                    .onError(normalFluxErrorConsumer).onSuccess(normalFluxSuccessConsumer)
+//        }, "normalflux")
+//    }
+//}
+//    @Bean
+//    fun circuitBreakerConfig() = CircuitBreakerConfig.custom()
+//            .minimumNumberOfCalls(2)
+//            .failureRateThreshold(50F)
+//            .waitDurationInOpenState(Duration.ofMillis(1000))
+//            .permittedNumberOfCallsInHalfOpenState(2)
+//            .slidingWindowSize(2)
+//            .build()
+//}
+
 
 fun main(args: Array<String>) {
 //    GracefulshutdownSpringApplication.run(GatewayApplication::class.java, *args)
     runApplication<GatewayApplication>(*args) {
         val context = beans {
-            bean{
+            // RedisRateLimiter
+            bean {
                 RedisRateLimiter(5, 7)
             }
             bean {
                 KeyResolver { Mono.just("1") }
             }
+            // CircuitBreaker
+            bean {
+                ReactiveResilience4JCircuitBreakerFactory()
+                        .configureDefault { id: String? ->
+                            Resilience4JConfigBuilder(id)
+                                    // TimeLimiter
+                                    .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(5)).build())
+                                    // CircuitBreaker Defaults
+                                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                                    .build()
+                        }
+            }
+
+//            bean {
+//                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
+//                        builder
+//                                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2)).build())
+//                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//                    }, "greet", "slowflux")
+//                }
+//            }
+
+            // CircuitBreaker ReactiveResilience4JCircuitBreaker
+//            bean {
+//                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//                    factory.configureDefault { id: String? ->
+//                        Resilience4JConfigBuilder(id)
+//                                .circuitBreakerConfig(CircuitBreakerConfig.custom()
+//                                        .slidingWindowSize(5)
+//                                        .permittedNumberOfCallsInHalfOpenState(5)
+//                                        .failureRateThreshold(50.0f)
+//                                        .waitDurationInOpenState(Duration.ofMillis(30))
+//                                        .slowCallRateThreshold(50.0F)
+//                                        .build())
+//                                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
+//                                .build()
+//                    }
+//                }
+//            }
+            // Jaeger Tracing
+            bean {
+                io.jaegertracing.Configuration("gateway-service")
+                        .withSampler(io.jaegertracing.Configuration.SamplerConfiguration
+                                .fromEnv()
+                                .withType(ConstSampler.TYPE)
+                                .withParam(1))
+                        .withReporter(io.jaegertracing.Configuration.ReporterConfiguration
+                                .fromEnv()
+                                .withLogSpans(true))
+            }
+
         }
         addInitializers(context)
     }

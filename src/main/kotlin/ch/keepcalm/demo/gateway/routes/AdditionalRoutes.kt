@@ -39,6 +39,7 @@ class AdditionalRoutes {
         }
     }
 
+
     @Bean
     fun catalogRoutesK8s(
             builder: RouteLocatorBuilder,
