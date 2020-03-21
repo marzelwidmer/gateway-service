@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.support.beans
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.zalando.problem.ProblemModule
+import org.zalando.problem.violations.ConstraintViolationProblemModule
 import reactor.core.publisher.Mono
 import java.time.Duration
 import java.util.function.Consumer
@@ -46,6 +48,15 @@ fun main(args: Array<String>) {
             bean {
                 KeyResolver { Mono.just("1") }
             }
+            // Zanlando - https://github.com/zalando/problem-spring-web/tree/master/problem-spring-webflux
+            bean{
+                ProblemModule()
+            }
+            // Zanlando - https://github.com/zalando/problem-spring-web/tree/master/problem-spring-webflux
+            bean {
+                ConstraintViolationProblemModule()
+            }
+
             // CircuitBreaker
 //            bean {
 //                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->

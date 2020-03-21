@@ -19,7 +19,6 @@
         <kotlin.version>1.3.70</kotlin.version>
 
         <jaeger.version>2.0.3</jaeger.version>
-        <swagger.version>2.9.2</swagger.version>
         <gitlog.version>1.13.17</gitlog.version>
 
         <graceful-shutdown.version>2.0.1</graceful-shutdown.version>
@@ -29,18 +28,24 @@
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <graceful-shutdown.version>2.0.1</graceful-shutdown.version>
         <latencyUtils.version>2.0.3</latencyUtils.version>  <!--  Needed After Spring Boot Starter upgrade to Version 2.2.4.RELEASE-->
+
+        <problem-spring-webflux.version>0.25.2</problem-spring-webflux.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
 
 
     <dependencies>
+        <!-- Spring Cloud Gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+        <!-- CircuitBreaker - Resilience4J       -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
         </dependency>
+        <!-- Spring Data Redis Reactive -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
@@ -53,6 +58,7 @@
             <version>${latencyUtils.version}</version>
         </dependency>
 
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -60,14 +66,21 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <!-- Problem: Spring WebFlux-->
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>problem-spring-webflux</artifactId>
+            <version>${problem-spring-webflux.version}</version>
         </dependency>
 
-
+        <!-- Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <!-- WebFlux -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
@@ -76,6 +89,15 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
         </dependency>
+
+        <!-- Configuration processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Kotlin -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
@@ -88,7 +110,6 @@
             <groupId>io.projectreactor.kotlin</groupId>
             <artifactId>reactor-kotlin-extensions</artifactId>
         </dependency>
-
 
         <!-- SpringBoot Graceful Shutdown  -->
         <dependency>
@@ -122,6 +143,7 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

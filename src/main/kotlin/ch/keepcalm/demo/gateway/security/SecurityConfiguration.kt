@@ -1,12 +1,12 @@
 package ch.keepcalm.demo.gateway.security
 
-import ch.keepcalm.demo.gateway.security.error.ErrorHandler
-import ch.keepcalm.demo.gateway.security.error.WebExceptionHandler
-import ch.keepcalm.demo.gateway.security.jwt.*
-import com.fasterxml.jackson.databind.ObjectMapper
+import ch.keepcalm.demo.gateway.security.jwt.JwtAuthenticationConverter
+import ch.keepcalm.demo.gateway.security.jwt.JwtAuthenticationManager
+import ch.keepcalm.demo.gateway.security.jwt.JwtSecurityProperties
+import ch.keepcalm.demo.gateway.security.jwt.JwtTokenVerifier
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Import
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder
@@ -14,8 +14,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity.AuthorizeExchangeSpec
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter
-import org.springframework.security.web.server.authentication.ServerAuthenticationEntryPointFailureHandler
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository
+import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport
 
 
 const val ROLE_KEEPCALM_FAVOR = "keepcalm.user" // FAVOR
@@ -26,11 +26,11 @@ const val ROLE_ACTUATOR = "ACTUATOR"
 
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)
-class SecurityConfiguration {
+@Import(SecurityProblemSupport::class)
+class SecurityConfiguration(private val problemSupport: SecurityProblemSupport) {
 
     @Bean
-    fun springSecurityFilterChain(http: ServerHttpSecurity, apiAuthenticationWebFilter: AuthenticationWebFilter,
-                                  jwtAuthenticationFailureHandler: JwtAuthenticationFailureHandler): SecurityWebFilterChain {
+    fun springSecurityFilterChain(http: ServerHttpSecurity, apiAuthenticationWebFilter: AuthenticationWebFilter): SecurityWebFilterChain {
         http
                 .csrf().disable()
                 .formLogin().disable()
@@ -52,7 +52,8 @@ class SecurityConfiguration {
                 .anyExchange().authenticated()
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationFailureHandler)
+                .authenticationEntryPoint(problemSupport)
+                .accessDeniedHandler(problemSupport)
                 .and()
         return http.build()
     }
@@ -64,27 +65,14 @@ class SecurityConfiguration {
     fun securityContextRepository(): NoOpServerSecurityContextRepository = NoOpServerSecurityContextRepository.getInstance()
 
     @Bean
-    fun jwtAuthenticationFailureHandler(objectMapper: ObjectMapper): JwtAuthenticationFailureHandler = JwtAuthenticationFailureHandler(objectMapper)
-
-    @Bean
     fun jwtAuthenticationConverter(jwtTokenVerifier: JwtTokenVerifier): JwtAuthenticationConverter = JwtAuthenticationConverter(jwtTokenVerifier)
 
     @Bean
     fun apiAuthenticationWebFilter(
-            jwtAuthenticationFailureHandler: JwtAuthenticationFailureHandler,
             jwtAuthenticationConverter: JwtAuthenticationConverter): AuthenticationWebFilter {
-
         val apiAuthenticationWebFilter = AuthenticationWebFilter(JwtAuthenticationManager())
-
-        apiAuthenticationWebFilter.setAuthenticationFailureHandler(ServerAuthenticationEntryPointFailureHandler(jwtAuthenticationFailureHandler))
         apiAuthenticationWebFilter.setServerAuthenticationConverter(jwtAuthenticationConverter)
         apiAuthenticationWebFilter.setSecurityContextRepository(securityContextRepository())
         return apiAuthenticationWebFilter
     }
-
-    @Bean
-    fun errorHandler(objectMapper: ObjectMapper): ErrorHandler = ErrorHandler(objectMapper)
-
-    @Bean
-    fun webExceptionHandler(errorHandler: ErrorHandler, objectMapper: ObjectMapper): ErrorWebExceptionHandler = WebExceptionHandler(errorHandler, objectMapper)
 }
