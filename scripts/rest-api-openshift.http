@@ -62,7 +62,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItO
 #GET http://medicheck-service-dev.apps.c3smonkey.ch/
 #GET http://internet-myhelsana-fsl-entwicklung.hel.kko.ch/myhelsana/services/medicheck
 #GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/
-GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo
+#GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo
+GET http://gateway-service-dev.apps.c3smonkey.ch/myhls/services/customers
 Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwic3ViIjoibm91c2VyIiwicm9sZXMiOiJteWhlbHNhbmEubGlnaHQiLCJpYWQiOjE1NzI2Mjg5NDAsImV4cCI6MTYwNDE4NjU0MCwiYXVkIjoiSGVsc2FuYSIsImxhbmd1YWdlIjoiZGUiLCJwYXJ0bmVyaWQiOiJub3VzZXIiLCJwYXJ0bmVybnIiOiIxMjM0NTY3OCJ9.aY2R174A427Q6Gi9gQz6AoluHzfbK2cafIuoXFAE4sY
