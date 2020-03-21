@@ -48,9 +48,9 @@ security:
 spring:
   profiles: local
 
-#logging:
-#  level:
-#    root: debug
+logging:
+  level:
+    root: debug
 
 opentracing:
   jaeger:

@@ -41,25 +41,3 @@ class FailingService() {
         }
     }
 }
-
-
-//@RestController
-//class ClientController(private val webClient: WebClient.Builder,
-//                       private val reactiveCircuitBreakerFactory: ReactiveCircuitBreakerFactory<*, *>) {
-//    @GetMapping("/foo")
-//    fun hello(): Mono<String> {
-//        return webClient.build()
-//                .get().uri { uriBuilder: UriBuilder ->
-//                    uriBuilder
-//                            .scheme("http")
-//                            .host("slow-service").path("/slow")
-//                            .build()
-//                }
-//                .retrieve().bodyToMono(String::class.java)
-//                .transform { it: Mono<String>? ->
-//                    val rcb = reactiveCircuitBreakerFactory.create("slow")
-//                    rcb.run(it) { throwable: Throwable? -> Mono.just("fallback") }
-//                }
-//    }
-//
-//}

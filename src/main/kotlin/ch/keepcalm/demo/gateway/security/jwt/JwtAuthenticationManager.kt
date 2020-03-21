@@ -1,6 +1,5 @@
 package ch.keepcalm.demo.gateway.security.jwt
 
-
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.core.Authentication
