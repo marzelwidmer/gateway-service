@@ -119,46 +119,34 @@ fun main(args: Array<String>) {
             }
             // CircuitBreaker
 //            bean {
-//                ReactiveResilience4JCircuitBreakerFactory()
-//                        .configureDefault { id: String? ->
-//                            Resilience4JConfigBuilder(id)
-//                                    // TimeLimiter
-//                                    .timeLimiterConfig(TimeLimiterConfig.custom()
-//                                            .timeoutDuration(Duration.ofSeconds(10)).build())
-//                                    // CircuitBreaker Defaults
-//                                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-//                                    .build()
-//                        }
-//            }
-
-            bean {
-                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
-                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
-                        builder
-                                .timeLimiterConfig(TimeLimiterConfig.custom()
-                                        .timeoutDuration(Duration.ofSeconds(5)).build())
-                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                    }, "greet", "slowflux")
-                }
-            }
-
-            // CircuitBreaker ReactiveResilience4JCircuitBreaker
-//            bean {
 //                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
-//                    factory.configureDefault { id: String? ->
-//                        Resilience4JConfigBuilder(id)
-//                                .circuitBreakerConfig(CircuitBreakerConfig.custom()
-//                                        .slidingWindowSize(5)
-//                                        .permittedNumberOfCallsInHalfOpenState(5)
-//                                        .failureRateThreshold(50.0f)
-//                                        .waitDurationInOpenState(Duration.ofMillis(30))
-//                                        .slowCallRateThreshold(50.0F)
-//                                        .build())
-//                                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofMillis(200)).build())
-//                                .build()
-//                    }
+//                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
+//                        builder
+//                                .timeLimiterConfig(TimeLimiterConfig.custom()
+//                                        .timeoutDuration(Duration.ofSeconds(5)).build())
+//                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//                    }, "greet")
 //                }
 //            }
+
+            // CircuitBreaker
+            bean {
+                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+                    factory.configureDefault { id: String? ->
+                        Resilience4JConfigBuilder(id)
+                                .circuitBreakerConfig(CircuitBreakerConfig.custom()
+                                        .slidingWindowSize(5)
+                                        .permittedNumberOfCallsInHalfOpenState(5)
+                                        .failureRateThreshold(50.0f)
+                                        .waitDurationInOpenState(Duration.ofMillis(30))
+                                        .slowCallRateThreshold(50.0F)
+                                        .build())
+                                .timeLimiterConfig(TimeLimiterConfig.custom()
+                                        .timeoutDuration(Duration.ofSeconds(5)).build())
+                                .build()
+                    }
+                }
+            }
             // Jaeger Tracing
             bean {
                 io.jaegertracing.Configuration("gateway-service")
