@@ -28,7 +28,12 @@ import java.util.function.Consumer
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
-class GatewayApplication
+class GatewayApplication {
+    // This definition is used to get Intellij happy
+//    @Bean
+//    fun reactiveResilience4JCircuitBreakerFactory ( )= ReactiveResilience4JCircuitBreakerFactory()
+}
+
 //{
 //To enable circuit breaker built on top of Resilience4J we need to declare Customizer bean that is
 // passed a ReactiveResilience4JCircuitBreakerFactory. The very simple configuration contains default circuit breaker
@@ -113,27 +118,29 @@ fun main(args: Array<String>) {
                 KeyResolver { Mono.just("1") }
             }
             // CircuitBreaker
-            bean {
-                ReactiveResilience4JCircuitBreakerFactory()
-                        .configureDefault { id: String? ->
-                            Resilience4JConfigBuilder(id)
-                                    // TimeLimiter
-                                    .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(5)).build())
-                                    // CircuitBreaker Defaults
-                                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-                                    .build()
-                        }
-            }
-
 //            bean {
-//                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
-//                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
-//                        builder
-//                                .timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(2)).build())
-//                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-//                    }, "greet", "slowflux")
-//                }
+//                ReactiveResilience4JCircuitBreakerFactory()
+//                        .configureDefault { id: String? ->
+//                            Resilience4JConfigBuilder(id)
+//                                    // TimeLimiter
+//                                    .timeLimiterConfig(TimeLimiterConfig.custom()
+//                                            .timeoutDuration(Duration.ofSeconds(10)).build())
+//                                    // CircuitBreaker Defaults
+//                                    .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//                                    .build()
+//                        }
 //            }
+
+            bean {
+                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
+                        builder
+                                .timeLimiterConfig(TimeLimiterConfig.custom()
+                                        .timeoutDuration(Duration.ofSeconds(5)).build())
+                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+                    }, "greet", "slowflux")
+                }
+            }
 
             // CircuitBreaker ReactiveResilience4JCircuitBreaker
 //            bean {
