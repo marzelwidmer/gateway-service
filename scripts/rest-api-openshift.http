@@ -1,74 +1,27 @@
-### GET Partner Index
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch
+# curl http://localhost:8080/api/foo -H "Authorization: Bearer  $token" -v
+# http :8080/light  "Authorization: Bearer $token"
+GET http://localhost:8080/api/foo
 Accept: */*
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZjhmZTRhOC02NjM2LTQ1ZmQtODE3Zi0xYWI2MzY4NzY3MDgiLCJzdWIiOiJBMTAwMjU5MyIsImlhdCI6MTU4NDIwNTk2MCwiZXhwIjoxNTg0MjA5NTYwMiwiaXNzIjoiS2VlcGNhbG0gQXV0aCBQb3J0YWwiLCJhdWQiOiJLZWVwY2FsbSIsImxhbmd1YWdlIjoiZGUiLCJuYW1lIjoiS2VlcGNhbG0gQUciLCJmaXJzdE5hbWUiOiJKb2huIiwiaXNlbXBsb3llZSI6ZmFsc2UsImVtYWlsIjoia2VlcGNhbG1AYzNzbW9ua2V5LmNoIiwicm9sZXMiOiJrZWVwY2FsbS51c2VyIiwicGFydG5lcmlkIjoiNjAwMTE0ODQiLCJwYXJ0bmVybnIiOiJNNjAwMTE0ODQiLCJhbGxvd2Vka2V5cyI6IjYwMDExNDg0In0.obrwFFNZHvS9U41_nPhqOyr25kB_iyJmWd9mI478WDA
 ###
 
-# curl https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/M4856252 -H "Authorization: Bearer  $AUTH" -v
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/M4856252
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
 
-### No Result PartnerList is Empty
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/M70603318
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmMGY5NjRjNi01NDc3LTRjMDctYmQ4Ni04OTIxYTUwMTE0NmQiLCJzdWIiOiJBMTAxMTAxNiIsImlhdCI6MTU3MzIzNjQ4OSwiZXhwIjoxNjU5NjMyODg5LCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMTEwMTZAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6Ik03MDYwMzMxOCIsInBhcnRuZXJuciI6IjcwNjAzMzE4In0.9M9mfSosRZXDHR1cRMHH12NGo4WAJS4OYxO1PTApGTM
-###
-
-### Get Medicheck URL
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/M4856252
+# curl http://localhost:8080/light -H "Authorization: Bearer  $tokenLight" -v
+# http :8080/light  "Authorization: Bearer $tokenLight"
+GET http://localhost:8080/light
 Accept: */*
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYTcwMmU3OS1hOWMwLTQxYjktOGRiOC1kOTA1YjUyNTJjYmUiLCJzdWIiOiJBMTAwMjU5MyIsImlhdCI6MTU4NDIwNjE0MSwiZXhwIjoxNTg0MjA5NzQxMywiaXNzIjoiS2VlcGNhbG0gQXV0aCBQb3J0YWwiLCJhdWQiOiJLZWVwY2FsbSIsImxhbmd1YWdlIjoiZGUiLCJuYW1lIjoiS2VlcGNhbG0gQUciLCJmaXJzdE5hbWUiOiJKb2huIiwiaXNlbXBsb3llZSI6ZmFsc2UsImVtYWlsIjoia2VlcGNhbG1AYzNzbW9ua2V5LmNoIiwicm9sZXMiOiJrZWVwY2FsbS5saWdodCIsInBhcnRuZXJpZCI6IjYwMDExNDg0IiwicGFydG5lcm5yIjoiTTYwMDExNDg0IiwiYWxsb3dlZGtleXMiOiI2MDAxMTQ4NCJ9.DU_HV7RaQGxT52qXalTvhN1gxzaEoVjBciSTVWb9HJA
 ###
 
 
-### Get global-trade-item
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/global-trade-item/7680542940182
-Accept: */*
-Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
-###
-
-
-### Get global-trade-item-tarifziffer
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/global-trade-item-tarifziffer
-Accept: */*
-Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
-###
-
-
-
-### Get tarifziffer
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/tarifziffer/1956019
-Accept: */*
-Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
-###
-
-
-### Get rechnungs-positionen
-GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/api/medicheck/rechnungs-positionen/M4856252
-Accept: */*
-Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5NjU1NmJhNy0xYzk3LTQ5ZGItOWM4Mi1iNTNmNTUxNTdhNDUiLCJzdWIiOiJBMTAzMTkzNCIsImlhdCI6MTU3MzIzMTY3MywiZXhwIjoxNjU5NjI4MDczLCJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwiYXVkIjoiSGVsc2FuYSIsImVtYWlsIjoiQTEwMzE5MzRAdGVzdC5oZWxzYW5hLmNoIiwicm9sZXMiOiJteWhlbHNhbmEudXNlciIsInBhcnRuZXJpZCI6IjEwMDIxMTY0OSIsInBhcnRuZXJuciI6IjEwMDIxMTY0OSJ9.aLbrjU4Xm0qKFEY0mMRNX_mPKFOGZbaRp49NZA8LyII
-###
-
-
-
-### Get myhelsana.light
-#GET http://internet-myhelsana-fsl-entwicklung.hel.kko.ch/manage/routes
-#GET http://foo-service-dev.apps.c3smonkey.ch/
-#GET http://medicheck-service-dev.apps.c3smonkey.ch/
-#GET http://internet-myhelsana-fsl-entwicklung.hel.kko.ch/myhelsana/services/medicheck
-#GET https://medicheck-service-myhelsana-build.osp-appl-preprod.hel.kko.ch/
-#GET http://spring-cloud-gateway-dev.apps.c3smonkey.ch/coolapp/services/foo
+### Get gateway
 GET http://gateway-service-dev.apps.c3smonkey.ch/myhls/services/customers
 Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIZWxzYW5hIEF1dGggUG9ydGFsIiwic3ViIjoibm91c2VyIiwicm9sZXMiOiJteWhlbHNhbmEubGlnaHQiLCJpYWQiOjE1NzI2Mjg5NDAsImV4cCI6MTYwNDE4NjU0MCwiYXVkIjoiSGVsc2FuYSIsImxhbmd1YWdlIjoiZGUiLCJwYXJ0bmVyaWQiOiJub3VzZXIiLCJwYXJ0bmVybnIiOiIxMjM0NTY3OCJ9.aY2R174A427Q6Gi9gQz6AoluHzfbK2cafIuoXFAE4sY
 Forwarded: for="portal.azure.com";host="portal.azure.com";proto="https";
-#X-Forwarded-For: 127.0.0.12,123,1234
 X-Forwarded-Host: hallo
 X-Forwarded-Proto: https
 ###
