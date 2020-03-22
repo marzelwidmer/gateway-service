@@ -17,6 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <kotlin.version>1.3.70</kotlin.version>
+        <hamkrest.version>1.7.0.0</hamkrest.version>
 
         <jaeger.version>2.0.3</jaeger.version>
         <gitlog.version>1.13.17</gitlog.version>
@@ -97,6 +98,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Hamcrest for Kotlin -->
+        <dependency>
+            <groupId>com.natpryce</groupId>
+            <artifactId>hamkrest</artifactId>
+            <version>${hamkrest.version}</version>
+        </dependency>
         <!-- Kotlin -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

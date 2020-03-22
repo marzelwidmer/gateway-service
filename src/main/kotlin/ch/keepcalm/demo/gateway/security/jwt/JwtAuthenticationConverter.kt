@@ -10,56 +10,68 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
 import org.springframework.security.web.server.authentication.ServerAuthenticationConverter
-import org.springframework.util.StringUtils
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
+
 class JwtAuthenticationConverter(private val jwtTokenVerifier: JwtTokenVerifier) : ServerAuthenticationConverter {
 
-    private val logger = LoggerFactory.getLogger(JwtAuthenticationConverter::class.java)
-
     companion object {
-        private const val BEARER = "Bearer "
-        private const val DEFAULT_LANGUAGE = "de"
-        private const val AUTHORITIES = "roles"
-        private const val PARTNER_NR = "partnernr"
-        private const val PARTNER_ID = "partnerid"
-        private const val IS_EMPLOYEE = "isemployee"
-        private const val ALLOWED_KEYS = "allowedkeys"
-        private const val LANGUAGE = "language"
+        private val LOGGER = LoggerFactory.getLogger(JwtAuthenticationConverter::class.java)
+        private val AUTHENTICATION_SCHEMA = "Bearer "
+        private val DEFAULT_LANGUAGE = "de"
+        private val AUTHORITIES = "roles"
+        private val PARTNER_NR = "partnernr"
+        private val PARTNER_ID = "partnerid"
+        private val IS_EMPLOYEE = "isemployee"
+        private val ALLOWED_KEYS = "allowedkeys"
+        private val LANGUAGE = "language"
     }
 
-    override fun convert(exchange: ServerWebExchange): Mono<Authentication> {
-        return Mono.justOrEmpty(exchange)
-                .flatMap { serverWebExchange -> extractToken(serverWebExchange) }
-                .map { token -> Pair(token, jwtTokenVerifier.verify(token)) }
-                .doOnNext { logger.debug("JWT token: {}", it) }
-                .map { pairTokenAndClaims -> getAuthentication(pairTokenAndClaims.first) }
-                .doOnNext { logger.debug("Authentication created: $it") }
-                .doOnError { error -> throw BadCredentialsException("Invalid JWT", error) }
+    override fun convert(swe: ServerWebExchange): Mono<Authentication> = Mono.justOrEmpty(swe)
+            .flatMap { serverWebExchange -> extractBearerTokenfromAuthorizationHeader(serverWebExchange) }
+            .doOnNext { LOGGER.debug("--- JWT token: {}", it) }
+            .map { token -> Pair(token, jwtTokenVerifier.verify(token)) }
+            .doOnNext { LOGGER.debug("--- JWT token verifyed: {}", it) }
+            .map { pairTokenAndClaims -> createPreAuthenticatedAuthenticationToken(pairTokenAndClaims.first) }
+            .doOnNext { LOGGER.debug("--- Authentication created: $it") }
+            .doOnError { error -> throw BadCredentialsException("Invalid JWT", error) }
+
+
+    /**
+     * Extract Bearer token form Authorization Header (Authorization: Bearer eyJhbGciOiJIU.eyJpc3MiOiJIZWxzc.GciOiJIUSGciO)
+     * @param serverWebExchange ServerWebExchange
+     * @return Mono<String>
+     */
+    private fun extractBearerTokenfromAuthorizationHeader(serverWebExchange: ServerWebExchange): Mono<String> {
+        fun extractTokenFromBearer(bearerToken: String?) =
+                if (bearerToken != null && bearerToken.startsWith(AUTHENTICATION_SCHEMA)) {
+                    Mono.justOrEmpty(bearerToken.substring(AUTHENTICATION_SCHEMA.length, bearerToken.length).trim())
+                } else Mono.empty()
+
+        return extractTokenFromBearer(serverWebExchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION).toString()
+                .also { LOGGER.trace("--- Found Authorization Header: $it") })
     }
 
-    private fun extractToken(serverWebExchange: ServerWebExchange): Mono<String> {
-        serverWebExchange.request.headers.getFirst(HttpHeaders.AUTHORIZATION).takeIf {
-            StringUtils.hasText(it)
-        }?.let { authValue ->
-            return Mono.justOrEmpty(extractBearerTokenFromHeader(authValue))
-        }
-        return Mono.empty()
-    }
 
-    private fun extractBearerTokenFromHeader(header: String): String? = header.takeIf {
-        header.startsWith("Bearer ")
-    }?.apply {
-        return header.substring(BEARER.length, header.length)
-    }
-
-    private fun getAuthentication(token: String): Authentication {
-        val customUserDetails: UserDetails = customUserDetails(claims = extractClaimsFromToken(token= token))
+    /**
+     * Setup Security Context
+     *
+     * @param token String
+     * @return Authentication
+     */
+    private fun createPreAuthenticatedAuthenticationToken(token: String): Authentication {
+        val customUserDetails: UserDetails = createCustomUserDetailsFromJwtClaims(claims = jwtTokenVerifier.getClamsFromJwt(token = token))
         return PreAuthenticatedAuthenticationToken(customUserDetails, token, customUserDetails.authorities)
     }
 
-    private fun customUserDetails(claims: Claims): UserDetails = CustomUserDetails(subject = claims.subject,
+    /**
+     * Create CustomerUserDetails from JWT Claims
+     *
+     * @param claims Claims
+     * @return UserDetails
+     */
+    private fun createCustomUserDetailsFromJwtClaims(claims: Claims): UserDetails = CustomUserDetails(subject = claims.subject,
             password = "",
             partnernr = "${claims[PARTNER_NR]}",
             partnerid = "${claims[PARTNER_ID]}",
@@ -67,10 +79,10 @@ class JwtAuthenticationConverter(private val jwtTokenVerifier: JwtTokenVerifier)
             authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(
                     claims.get(AUTHORITIES,
                             String::class.java)),
+
             isemployee = "${claims[IS_EMPLOYEE]}".toBoolean(),
             language = claims.get(LANGUAGE, String::class.java) ?: DEFAULT_LANGUAGE)
 
 
-    private fun extractClaimsFromToken(token: String) = jwtTokenVerifier.verify(token).body
 }
 
