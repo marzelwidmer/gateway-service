@@ -1,7 +1,6 @@
 package ch.keepcalm.demo.gateway
 
 import ch.keepcalm.demo.gateway.security.jwt.JwtSecurityProperties
-import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig
 import io.github.resilience4j.timelimiter.TimeLimiterConfig
 import io.jaegertracing.internal.samplers.ConstSampler
@@ -22,7 +21,6 @@ import org.zalando.problem.ProblemModule
 import org.zalando.problem.violations.ConstraintViolationProblemModule
 import reactor.core.publisher.Mono
 import java.time.Duration
-import java.util.function.Consumer
 
 
 @SpringBootApplication
@@ -56,31 +54,28 @@ fun main(args: Array<String>) {
             bean {
                 ConstraintViolationProblemModule()
             }
-
-            // CircuitBreaker
-//            bean {
-//                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
-//                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
-//                        builder
-//                                .timeLimiterConfig(TimeLimiterConfig.custom()
-//                                        .timeoutDuration(Duration.ofSeconds(5)).build())
-//                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
-//                    }, "greet")
-//                }
-//            }
-
-            // CircuitBreaker
+            // CircuitBreaker - https://resilience4j.readme.io/docs/circuitbreaker
             bean {
                 Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
                     factory.configureDefault { id: String? ->
                         Resilience4JConfigBuilder(id)
                                 .circuitBreakerConfig(CircuitBreakerConfig.custom()
+                                        // Configures the size of the sliding window which is used to record the outcome of calls when the CircuitBreaker is closed.
                                         .slidingWindowSize(5)
+                                        // Configures the number of permitted calls when the CircuitBreaker is half open.
                                         .permittedNumberOfCallsInHalfOpenState(5)
+                                        // Configures the failure rate threshold in percentage
+                                        // If the failure rate is equal or greater than the threshold the CircuitBreaker transitions to open and starts short-circuiting calls.
                                         .failureRateThreshold(50.0f)
+                                        // Configures the wait duration which specifies how long the CircuitBreaker should stay open, before it switches to half open.
+                                        // Default value is 60 seconds.
                                         .waitDurationInOpenState(Duration.ofMillis(30))
+                                        // Configures a threshold in percentage. The CircuitBreaker considers a call as slow when the call duration is greater than
+                                        // slowCallDurationThreshold(Duration)
+                                        //  When the percentage of slow calls is equal or greater the threshold, the CircuitBreaker transitions to open and starts short-circuiting calls.
                                         .slowCallRateThreshold(50.0F)
                                         .build())
+                                // Configure the time limiter
                                 .timeLimiterConfig(TimeLimiterConfig.custom()
                                         .timeoutDuration(Duration.ofSeconds(5)).build())
                                 .build()

@@ -1,30 +1,14 @@
-package ch.keepcalm.demo.gateway
+package ch.keepcalm.demo.gateway.security
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.security.Principal
 
-
-@RestController
-class Foo {
-    @GetMapping(value = ["/api/foo"])
-    fun foo() = "Welcome to ROLE_KEEPCALM_MEMBER and ROLE_KEEPCALM_FAVOR"
-
-    @GetMapping(value = ["/light"])
-    fun bar() = "Welcome to ROLE_KEEPCALM_LIGHT"
-
-}
-
-
 @RestController
 class WhoAmIController {
-    @GetMapping("/me")
+    @GetMapping("/whoami")
     fun me(principal: Mono<Principal>): Mono<Principal> {
         return principal
     }
 }
-
-
-
-
