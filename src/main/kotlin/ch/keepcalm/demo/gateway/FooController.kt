@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class FooController {
-    @GetMapping(value = ["/api/foo"])
+    @GetMapping(value = ["/strong"])
     fun foo() = "Welcome to ROLE_KEEPCALM_MEMBER and ROLE_KEEPCALM_FAVOR"
 
     @GetMapping(value = ["/light"])

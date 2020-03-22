@@ -1,6 +1,6 @@
-# curl http://localhost:8080/api/foo -H "Authorization: Bearer  $token" -v
+# curl http://localhost:8080/strong -H "Authorization: Bearer  $token" -v
 # http :8080/light  "Authorization: Bearer $token"
-GET http://localhost:8080/api/foo
+GET http://localhost:8080/strong
 Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZjhmZTRhOC02NjM2LTQ1ZmQtODE3Zi0xYWI2MzY4NzY3MDgiLCJzdWIiOiJBMTAwMjU5MyIsImlhdCI6MTU4NDIwNTk2MCwiZXhwIjoxNTg0MjA5NTYwMiwiaXNzIjoiS2VlcGNhbG0gQXV0aCBQb3J0YWwiLCJhdWQiOiJLZWVwY2FsbSIsImxhbmd1YWdlIjoiZGUiLCJuYW1lIjoiS2VlcGNhbG0gQUciLCJmaXJzdE5hbWUiOiJKb2huIiwiaXNlbXBsb3llZSI6ZmFsc2UsImVtYWlsIjoia2VlcGNhbG1AYzNzbW9ua2V5LmNoIiwicm9sZXMiOiJrZWVwY2FsbS51c2VyIiwicGFydG5lcmlkIjoiNjAwMTE0ODQiLCJwYXJ0bmVybnIiOiJNNjAwMTE0ODQiLCJhbGxvd2Vka2V5cyI6IjYwMDExNDg0In0.obrwFFNZHvS9U41_nPhqOyr25kB_iyJmWd9mI478WDA
@@ -16,9 +16,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYTcwMmU3O
 ###
 
 ### 403 Forbidden
-# curl http://localhost:8080/api/foo -H "Authorization: Bearer  $tokenLight" -v
-# http :8080/api/foo  "Authorization: Bearer $tokenLight"
-GET http://localhost:8080/api/foo
+# curl http://localhost:8080/strong -H "Authorization: Bearer  $tokenLight" -v
+# http :8080/strong  "Authorization: Bearer $tokenLight"
+GET http://localhost:8080/strong
 Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIwYTcwMmU3OS1hOWMwLTQxYjktOGRiOC1kOTA1YjUyNTJjYmUiLCJzdWIiOiJBMTAwMjU5MyIsImlhdCI6MTU4NDIwNjE0MSwiZXhwIjoxNTg0MjA5NzQxMywiaXNzIjoiS2VlcGNhbG0gQXV0aCBQb3J0YWwiLCJhdWQiOiJLZWVwY2FsbSIsImxhbmd1YWdlIjoiZGUiLCJuYW1lIjoiS2VlcGNhbG0gQUciLCJmaXJzdE5hbWUiOiJKb2huIiwiaXNlbXBsb3llZSI6ZmFsc2UsImVtYWlsIjoia2VlcGNhbG1AYzNzbW9ua2V5LmNoIiwicm9sZXMiOiJrZWVwY2FsbS5saWdodCIsInBhcnRuZXJpZCI6IjYwMDExNDg0IiwicGFydG5lcm5yIjoiTTYwMDExNDg0IiwiYWxsb3dlZGtleXMiOiI2MDAxMTQ4NCJ9.DU_HV7RaQGxT52qXalTvhN1gxzaEoVjBciSTVWb9HJA

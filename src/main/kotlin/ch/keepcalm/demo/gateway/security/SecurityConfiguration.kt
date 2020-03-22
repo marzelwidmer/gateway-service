@@ -21,8 +21,6 @@ import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport
 const val ROLE_KEEPCALM_FAVOR = "keepcalm.user" // FAVOR
 const val ROLE_KEEPCALM_MEMBER = "keepcalm.mitglied" // Mitglied
 const val ROLE_KEEPCALM_LIGHT = "keepcalm.light" // Light
-const val ROLE_ACTUATOR = "ACTUATOR"
-
 
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)
@@ -38,14 +36,13 @@ class SecurityConfiguration(private val problemSupport: SecurityProblemSupport) 
                 .addFilterAt(apiAuthenticationWebFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .authorizeExchange(Customizer { exchanges: AuthorizeExchangeSpec ->
                     exchanges
-                            .pathMatchers("/alive").permitAll()
-                            .pathMatchers("/foo").permitAll()
                             .pathMatchers("/test-kotlin").permitAll()
                             .pathMatchers("/greet").permitAll()
-                            .pathMatchers("/me").permitAll()
+
+                            .pathMatchers("/alive").permitAll()
                             .pathMatchers("/actuator/health").permitAll()
                             .pathMatchers("/light/**").hasAnyAuthority(ROLE_KEEPCALM_LIGHT)
-                            .pathMatchers("/api/**").hasAnyAuthority(ROLE_KEEPCALM_FAVOR, ROLE_KEEPCALM_MEMBER)
+                            .pathMatchers("/strong/**").hasAnyAuthority(ROLE_KEEPCALM_FAVOR, ROLE_KEEPCALM_MEMBER)
                 }
                 )
                 .authorizeExchange()
