@@ -14,10 +14,10 @@ import java.time.Duration
 class FailingRestController(private val failingService: FailingService, private val reactiveCircuitBreakerFactory: ReactiveCircuitBreakerFactory<*, *>) {
 
     @GetMapping("/greet")
-    fun greet(@RequestParam name: String?): Mono<String> {
+    fun greet(@RequestParam name: String?): Mono<FailingServiceResponse> {
         return reactiveCircuitBreakerFactory.create("greet")
                 .run(failingService.greet(name)) {
-                    Mono.just("fallback")
+                    Mono.just(FailingServiceResponse(msg = "Fallback: call took too long."))
                 }
     }
 }
@@ -26,16 +26,18 @@ class FailingRestController(private val failingService: FailingService, private 
 class FailingService() {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    fun greet(name: String?): Mono<String> {
-        val seconds = (0..10).random()
+    fun greet(name: String?): Mono<FailingServiceResponse> {
 
         name?.map {
+            val seconds = (0..10).random()
             val msg = "Hello ${name} ! this call took $seconds"
-            logger.info(msg)
-            return Mono.just(msg)
+            return Mono.just(FailingServiceResponse(msg = msg))
                     .delayElement(Duration.ofSeconds(seconds.toLong()))
+                    .doOnNext { logger.info(it.msg) }
         }.isNullOrEmpty().apply {
             return Mono.error(NullPointerException())
         }
     }
 }
+
+data class FailingServiceResponse(val msg: String)

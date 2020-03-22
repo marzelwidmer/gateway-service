@@ -45,7 +45,7 @@ class JwtAuthenticationConverter(private val jwtTokenVerifier: JwtTokenVerifier)
      * @return Mono<String>
      */
     private fun extractBearerTokenfromAuthorizationHeader(serverWebExchange: ServerWebExchange): Mono<String> {
-        fun extractTokenFromBearer(bearerToken: String?) =
+        fun  extractTokenFromBearer(bearerToken: String?) =
                 if (bearerToken != null && bearerToken.startsWith(AUTHENTICATION_SCHEMA)) {
                     Mono.justOrEmpty(bearerToken.substring(AUTHENTICATION_SCHEMA.length, bearerToken.length).trim())
                 } else Mono.empty()
