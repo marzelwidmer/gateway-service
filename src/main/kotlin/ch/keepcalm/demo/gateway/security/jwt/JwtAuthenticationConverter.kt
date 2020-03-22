@@ -40,6 +40,7 @@ class JwtAuthenticationConverter(private val jwtTokenVerifier: JwtTokenVerifier)
 
     /**
      * Extract Bearer token form Authorization Header (Authorization: Bearer eyJhbGciOiJIU.eyJpc3MiOiJIZWxzc.GciOiJIUSGciO)
+     *
      * @param serverWebExchange ServerWebExchange
      * @return Mono<String>
      */
