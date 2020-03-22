@@ -15,12 +15,10 @@ class FailingRestController(private val failingService: FailingService, private 
 
     @GetMapping("/greet")
     fun greet(@RequestParam name: String?): Mono<String> {
-        val results = failingService.greet(name) // cold
-        val circuitBreaker = reactiveCircuitBreakerFactory.create("greet")
-
-        return circuitBreaker.run(results) {
-            Mono.just("fallback")
-        }
+        return reactiveCircuitBreakerFactory.create("greet")
+                .run(failingService.greet(name)) {
+                    Mono.just("fallback")
+                }
     }
 }
 

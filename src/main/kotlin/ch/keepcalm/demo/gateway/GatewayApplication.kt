@@ -75,13 +75,25 @@ fun main(args: Array<String>) {
                                         //  When the percentage of slow calls is equal or greater the threshold, the CircuitBreaker transitions to open and starts short-circuiting calls.
                                         .slowCallRateThreshold(50.0F)
                                         .build())
-                                // Configure the time limiter
+                                //
                                 .timeLimiterConfig(TimeLimiterConfig.custom()
                                         .timeoutDuration(Duration.ofSeconds(5)).build())
                                 .build()
                     }
                 }
             }
+            // CircuitBreaker only for 'greet'
+//            bean {
+//                Customizer { factory: ReactiveResilience4JCircuitBreakerFactory ->
+//                    factory.configure(Consumer { builder: Resilience4JConfigBuilder ->
+//                        builder
+//                                .timeLimiterConfig(TimeLimiterConfig.custom()
+//                                        .timeoutDuration(Duration.ofSeconds(5)).build())
+//                                .circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
+//                    }, "greet")
+//                }
+//            }
+
             // Jaeger Tracing
             bean {
                 io.jaegertracing.Configuration("gateway-service")
