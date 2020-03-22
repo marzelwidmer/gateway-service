@@ -36,3 +36,10 @@ X-Forwarded-Proto: https
 ###
 
 
+### CircuitBreaker
+# curl "http://localhost:8080/greet?name=John" -v
+# http :8080/greet name==John -v
+GET http://localhost:8080/greet?name=John
+Accept: */*
+Cache-Control: no-cache
+###
