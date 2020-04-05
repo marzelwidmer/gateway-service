@@ -18,15 +18,6 @@ spec:
         - image: docker-registry.default.svc:5000/myproject/demo
           name: gateway-service
           imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              port: 8080
-              path: /alive
-          readinessProbe:
-            periodSeconds: 5
-            failureThreshold: 1
-            httpGet:
-              port: 8080
-              path: /actuator/health
+
 
 

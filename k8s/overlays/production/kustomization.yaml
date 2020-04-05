@@ -18,4 +18,5 @@ resources:
 - ../../base/
 
 patchesStrategicMerge:
-  - memorylimit_patch.yaml
+  - patch_memorylimit.yaml
+  - patch-healthcheck.yaml

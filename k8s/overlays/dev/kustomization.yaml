@@ -21,7 +21,8 @@ resources:
 
 patchesStrategicMerge:
   - patch-memorylimit.yaml
-  - update-replicas.yaml
+  - patch-replicas.yaml
+  - patch-healthcheck.yaml
   - use-configmap.yaml
   - use-secrets.yaml
 

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+spec:
+  template:
+    spec:
+      containers:
+        - name: gateway-service
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 5
+          readinessProbe:
+            initialDelaySeconds: 40
+            periodSeconds: 5
+            failureThreshold: 5
+            httpGet:
+              path: /actuator/health
+              port: 8080

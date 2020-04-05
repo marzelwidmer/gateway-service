@@ -18,9 +18,6 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport
 
 
-const val ROLE_KEEPCALM_FAVOR = "keepcalm.user" // FAVOR
-const val ROLE_KEEPCALM_MEMBER = "keepcalm.mitglied" // Mitglied
-const val ROLE_KEEPCALM_LIGHT = "keepcalm.light" // Light
 
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)

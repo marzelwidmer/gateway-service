@@ -1,11 +1,36 @@
-#logging:
-#  level:
-#    org.springframework.cloud.loadbalancer: TRACE
-#    org.springframework.cloud.gateway: TRACE
-#    org.springframework.http.server.reactive: DEBUG
-#    org.springframework.web.reactive: DEBUG
-#    reactor.ipc.netty: DEBUG
-#    reactor.netty: DEBUG
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+          url-expression: "uri"
+      # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
+      forwarded:
+        enabled: false
+      x-forwarded:
+        enabled: true
+        prefix-enabled: true # this header modifies the uri of the request within the called service
+        prefix-append: false
+        proto-enabled: false
+        proto-append: false
+        port-enabled: false
+        port-append: false
+        host-enabled: false
+        host-append: false
+        for-enabled: false
+        for-append: false
+
+
+logging:
+  level:
+    org.springframework.cloud.loadbalancer: TRACE
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
+    reactor.netty: DEBUG
 
 
 management:
@@ -23,3 +48,9 @@ management:
   info:
     git:
       mode: full
+
+security:
+  jwt:
+    issuer: Keepcalm Auth Portal
+    audience: Keepcalm
+    secret: willbereplacedinalaterversiononceRSAcanbeused

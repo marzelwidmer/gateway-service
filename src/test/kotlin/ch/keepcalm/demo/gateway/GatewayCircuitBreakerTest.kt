@@ -1,5 +1,6 @@
 package ch.keepcalm.demo.gateway
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.Test
 import org.slf4j.LoggerFactory
@@ -15,6 +16,7 @@ class GatewayCircuitBreakerTest {
     var template: TestRestTemplate? = null
     var i = 0
 
+    @Disabled
     @Test
     @RepeatedTest(1)
     fun testFailService() {
