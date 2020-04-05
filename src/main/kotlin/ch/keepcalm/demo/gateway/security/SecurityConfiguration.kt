@@ -18,6 +18,7 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 import org.zalando.problem.spring.webflux.advice.security.SecurityProblemSupport
 
 
+
 @EnableWebFluxSecurity
 @EnableConfigurationProperties(JwtSecurityProperties::class)
 @Import(SecurityProblemSupport::class)

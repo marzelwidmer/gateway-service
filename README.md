@@ -1,3 +1,29 @@
+# OpenShift 
+## Deploy Application 
+
+### Run a pipeline with Skaffold
+
+#### PreCondition 
+Login in Openshift
+```bash
+oc login
+``` 
+Login in Docker Registry from OpenShift
+```bash
+docker login -u <USER> -p `oc whoami -t` registry.apps.c3smonkey.ch
+```
+
+## Deploy on Dev
+```bash
+skaffold run -p dev
+```
+
+## Deploy on Production
+```bash
+skaffold run -p production
+```
+
+
 
 
  
