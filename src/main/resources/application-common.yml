@@ -1,3 +1,27 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+          url-expression: "uri"
+      # avoid sending forwarded/x-forwarded headers from api-gateway, as they overwrite forwarded headers from nevis or loadbalancer
+      forwarded:
+        enabled: false
+      x-forwarded:
+        enabled: true
+        prefix-enabled: true # this header modifies the uri of the request within the called service
+        prefix-append: false
+        proto-enabled: false
+        proto-append: false
+        port-enabled: false
+        port-append: false
+        host-enabled: false
+        host-append: false
+        for-enabled: false
+        for-append: false
+
 management:
   endpoints:
     web:
@@ -14,19 +38,27 @@ management:
     git:
       mode: full
 
+security:
+  jwt:
+    issuer: Keepcalm
+    audience: Keepcalm
+    secret:  mySecret
 
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.cloud.loadbalancer: TRACE
-    #ch.helsana.microservice.webforms.gateway.config.LoggingFilterConfig: INFO
-#  file:
-#    path: ./log
+faketoken:
+    firstName: John
+    lastName: Doe
+    email: john.doe@foo.bar
+    subject: joh.doe@foo.bar
+    roles: keepcalm.member
+    language: de
 
-#eureka:
-#  instance:
-#    instance-id: ${server.address:localhost}:${spring.application.name}
-#    hostname: ${server.address:localhost}
-#  client:
-#    serviceUrl:
-#      defaultZone: http://${server.address:localhost}:8761/eureka
+
+opentracing:
+  jaeger:
+    log-spans: true
+    http-sender:
+      url: http://jaeger-collector.dev.svc.cluster.local:14268/api/traces
+
+---
+spring:
+  profiles: development

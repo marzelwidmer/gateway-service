@@ -1,0 +1,39 @@
+##
+GET http://localhost:8080/faketoken
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+
+### Minikube with PreProd Token
+GET http://localhost:8080/whoami
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmMTk1ZjQ3Mi0wMjdiLTRlZTEtYjM4Zi04N2M0ZDY4YzcxNDQiLCJzdWIiOiJqb2guZG9lQGZvby5iYXIiLCJpYXQiOjE2MDMyMjE4NDYsImV4cCI6MTYwMzIyNTQ0NiwiaXNzIjoiS2VlcGNhbG0iLCJhdWQiOiJLZWVwY2FsbSIsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2VAZm9vLmJhciIsInJvbGVzIjoia2VlcGNhbG0ubWVtYmVyIiwibGFuZ3VhZ2UiOiJkZSJ9.bnaCt6s1ebEaIk2Bbd304JcURYX8fPiAHtKrOpTde0k
+Forwarded: for="minikube.me;host=minikube.me;proto=http"
+
+
+###
+GET http://localhost:8080/api/member
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmMTk1ZjQ3Mi0wMjdiLTRlZTEtYjM4Zi04N2M0ZDY4YzcxNDQiLCJzdWIiOiJqb2guZG9lQGZvby5iYXIiLCJpYXQiOjE2MDMyMjE4NDYsImV4cCI6MTYwMzIyNTQ0NiwiaXNzIjoiS2VlcGNhbG0iLCJhdWQiOiJLZWVwY2FsbSIsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2VAZm9vLmJhciIsInJvbGVzIjoia2VlcGNhbG0ubWVtYmVyIiwibGFuZ3VhZ2UiOiJkZSJ9.bnaCt6s1ebEaIk2Bbd304JcURYX8fPiAHtKrOpTde0k
+Forwarded: for="minikube.me;host=minikube.me;proto=http"
+
+
+### Access Denied with Member on Admin Endpoint
+GET http://localhost:8080/api/admin
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmMTk1ZjQ3Mi0wMjdiLTRlZTEtYjM4Zi04N2M0ZDY4YzcxNDQiLCJzdWIiOiJqb2guZG9lQGZvby5iYXIiLCJpYXQiOjE2MDMyMjE4NDYsImV4cCI6MTYwMzIyNTQ0NiwiaXNzIjoiS2VlcGNhbG0iLCJhdWQiOiJLZWVwY2FsbSIsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2VAZm9vLmJhciIsInJvbGVzIjoia2VlcGNhbG0ubWVtYmVyIiwibGFuZ3VhZ2UiOiJkZSJ9.bnaCt6s1ebEaIk2Bbd304JcURYX8fPiAHtKrOpTde0k
+Forwarded: for="minikube.me;host=minikube.me;proto=http"
+
+
+###
+GET http://localhost:8080/api/admin
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyYjdiMDZkMC05ZTAxLTRmZmMtOTg0NS00ZDU5MDE1ZjI2YWYiLCJzdWIiOiJqb2guZG9lQGZvby5iYXIiLCJpYXQiOjE2MDMyMjI5MDcsImV4cCI6MTYwMzIyNjUwNywiaXNzIjoiS2VlcGNhbG0iLCJhdWQiOiJLZWVwY2FsbSIsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2VAZm9vLmJhciIsInJvbGVzIjoia2VlcGNhbG0uYWRtaW4iLCJsYW5ndWFnZSI6ImRlIn0.YGtTOMYLXtiSynuGMrb9K7xWhSvZn24fnCEsvecXBo0
+Forwarded: for="minikube.me;host=minikube.me;proto=http"
+
+
