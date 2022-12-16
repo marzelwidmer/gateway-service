@@ -1,6 +1,9 @@
 ---
 spring:
-  profiles: local
+  config:
+    activate:
+      on-profile: local
+
   cloud:
     gateway:
       routes:
@@ -12,9 +15,3 @@ spring:
 logging:
   level:
     root: debug
-
-opentracing:
-  jaeger:
-    log-spans: true
-    http-sender:
-      url: http://localhost:14268/api/traces

@@ -42,7 +42,7 @@ security:
   jwt:
     issuer: Keepcalm
     audience: Keepcalm
-    secret:  mySecret
+    secret:  thisIsAVerySecureAndLongJWTSecretThatCanBeUsedForTesting
 
 faketoken:
     firstName: John
@@ -51,14 +51,3 @@ faketoken:
     subject: joh.doe@foo.bar
     roles: keepcalm.member
     language: de
-
-
-opentracing:
-  jaeger:
-    log-spans: true
-    http-sender:
-      url: http://jaeger-collector.dev.svc.cluster.local:14268/api/traces
-
----
-spring:
-  profiles: development

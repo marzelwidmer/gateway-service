@@ -1,29 +1,9 @@
 spring:
   application.name: gateway-service
-  cloud:
-    kubernetes:
-      reload:
-        enabled: true
-        mode: polling
-        period: 5000
-
-      discovery:
-        enabled: true
-      ribbon:
-        enabled: true
-        mode: service
-  devtools:
-    add-properties: false
 
 ---
 spring:
-  profiles: standalone
+  config:
+    activate:
+      on-profile: standalone
 
-  cloud:
-    kubernetes:
-      config:
-        enabled: false
-      reload:
-        enabled: false
-  devtools:
-    add-properties: true
