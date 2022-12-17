@@ -2,3 +2,20 @@ spring:
   profiles:
     active: default
     include: common
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: authfilter
+  cloud:
+    gateway:
+      routes:
+        - id: hypothetical-api
+          uri: http://localhost:8090
+          predicates:
+            - Path=/hypothetical-path/**
+          filters:
+            - StripPrefix=1

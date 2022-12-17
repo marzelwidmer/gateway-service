@@ -16,7 +16,9 @@ import java.time.ZoneId
 import java.util.*
 
 @Component
-class LoggingGlobalPreFilter (private val faketokenProperties: FaketokenProperties, private val jwtSecurityProperties: JwtSecurityProperties) : GlobalFilter {
+class LoggingGlobalPreFilter (
+        private val faketokenProperties: FaketokenProperties,
+        private val jwtSecurityProperties: JwtSecurityProperties) : GlobalFilter {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -24,7 +26,6 @@ class LoggingGlobalPreFilter (private val faketokenProperties: FaketokenProperti
 
         val portalAccount = exchange.request.cookies.getFirst("Navajo")
         println(generateToken(portalAccount?.value.toString()))
-
 
         logger.info("Global Pre Filter executed")
         return chain.filter(exchange)
@@ -59,3 +60,16 @@ class LoggingGlobalPreFilter (private val faketokenProperties: FaketokenProperti
     }"
 }
 
+
+@Component
+class AddAuthHeaderGlobalPreFilter : GlobalFilter {
+    override fun filter(exchange: ServerWebExchange, chain: GatewayFilterChain): Mono<Void> {
+        val hypotheticalBearerToken = "sample-bearer-token"
+        val request = exchange.request
+            .mutate()
+            .header("Authorization", "Bearer $hypotheticalBearerToken")
+            .build()
+        val mutatedExchange: ServerWebExchange = exchange.mutate().request(request).build()
+        return chain.filter(mutatedExchange)
+    }
+}
